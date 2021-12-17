@@ -1,0 +1,133 @@
+\chapter{Rozwiązanie problemu}
+\label{chapter-3}
+
+\section{Model rozwiązania}
+
+W pracy zdecydowano się rozwiązać problem na bazie metody opisanej w publikacji \cite{Braun2014}. W tej sekcji zostanie podany zbiór metod użytych do rozwiązanie problemu. Zdefiniowanie i opis poszczególnych metod nastąpi w kolejnych sekcjach rozdziału.
+
+\noindent Przetwarzanie sygnału zaczyna się od obliczenia STFT nagrania wejściowego. Następnie odbywa się przetwarzanie przedstawione na \ref{fig:block_diagram}. Na początku obliczona zostaje macierz widmowej gęstości mocy sygnału (PSD). Następnie za jej pomocą estymowany jest kierunek nadchodzenia fal (DOA). Dzięki połączeniu tych wartości możliwe jest zastosowanie algorytmu automatycznej regulacji głośności (AGC). Ostatnim krokiem jest zastosowanie filtru LCMV, który jako argumenty przyjmuje żądane poziomy wzmocnień, wyestymowane kierunki i sygnał wejściowy. Taki filtr produkuje sygnał wyjściowy. 
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=\textwidth]{Images/block_diagram.png}
+    \caption{Diagram blokowy}
+    \label{fig:block_diagram}
+\end{figure}
+
+\section{Macierz widmowej geśtości mocy}
+
+Macierz widmowej gęstości mocy definiuje się następująco:
+
+\begin{equation}
+    \label{equation:3.1}
+    \mathrm{\Phi}(k,n) = \mathrm{E} \, \{\bm{\mathrm{x}}(k,n) \bm{\mathrm{x}}^{H}(k,n)\}
+\end{equation}
+
+Zgodnie z \cite{Thiergart2013}, zakładając, że wszystkie elementy równania \ref{equation:2.2} są nieskorelowane, można zapisać:
+
+\begin{equation}
+    \label{equation:3.2}
+    \bm{\mathrm{\Phi}}(k,n) = 
+    \sum_{l=1}^{L} \bm{\mathrm{\Phi}}_{l}(k,n) +
+    \bm{\mathrm{\Phi}}_{\mathrm{n}}(k,n)
+\end{equation}
+
+Gdzie odpowiednio $\bm{\mathrm{\Phi}}_{l}(k,n)$ i $\bm{\mathrm{\Phi}}_{\mathrm{n}}(k,n)$ są macierzami PSD odpowiednio $l$-tej padającej fali i zakłóceń.
+
+\section{Przestrzenna funkcja głośności}
+
+Ważnym elementem systemu będzie sterowanie tak zwaną przestrzenną funkcją głośnośni $G(\theta_{l},n)$. Funkcja ta jest odpowiedzialna za utrzymywanie głośności sygnału wyjściowego na założonym poziomie:
+
+\begin{equation}
+    \label{equation:3.3}
+    \mathrm{Y}(k,n)= 
+    \sum_{l=1}^{L} G(\theta_{l},n)
+    \mathrm{X}_{l}(k,n,\bm{\mathrm{d}}_0)
+\end{equation}
+
+\section{Filtr LCMV}
+
+Punktem wyjściowym dla definicji filtru LCMV jest próba zapisania estymaty sygnału wyjściowego $\hat{\mathrm{Y}}(k,n)$ jako:
+\begin{equation}
+    \label{equation:3.4}
+    \hat{\mathrm{Y}}(k,n)=
+    \bm{\mathrm{w}}^{\mathrm{H}}(k,n)
+    \bm{\mathrm{x}}(k,n)
+\end{equation}
+
+\noindent Aby znaleźć współncyznniki filtru $\bm{\mathrm{w}}_{\mathrm{n}}(k,n)$, które pozwolą jak najlepiej przybliżyć żądane rozwiązanie należy rozwiązać problem optymalizacyjny zdefiniowany przez dwa poniższe równania:
+\begin{equation}
+    \label{equation:3.5}
+    \bm{\mathrm{w}}_{\mathrm{n}}(k,n) = 
+    \underset{\bm{\mathrm{w}}}{\mathrm{arg \, min}} \,
+    \bm{\mathrm{w}}^{\mathrm{H}}
+    \bm{\mathrm{\Phi}}_{n}
+    \bm{\mathrm{w}}
+\end{equation}
+
+\begin{equation}
+    \label{equation:3.6}
+    \bm{\mathrm{w}}^{\mathrm{H}}
+    \bm{\mathrm{a}}_{l}(k,n)=
+    G(\theta_{l},n),
+    \, \, l \in \{1,2,...,L\}
+\end{equation}
+
+Ten zapis oznacza, że żądany filtr powinien minimalizować podawane na wejście zakłócenia \ref{equation:3.5} i odpowiednio sterować głośnościami poszczególnych nadchodzących fal \ref{equation:3.6}.
+
+\section{Algorytm MUSIC}
+
+MUSIC(ang. Multiple Emitter Location and Signal Parameter Estimation) został opisane w \cite{Schmidt1986}. Nowocześniejsze opracowania można też znaleźć w \cite{DOA} i \cite{Benesty2008} Algorytm pozwala wyestymować kierunki nadchodzenia fali w systemie zawierającym wiele źródeł. Algorytm zakłada przyjęty model sygnału z założeniem, że tło akustyczne to wyłącznie biały szum gaussowski. Obecność innych zakłóceń pogarsza działanie systemu.
+
+\noindent Na potrzeby tej pracy zostanie przedstawiony skrótowo algorytm. Wyprowadzenie znajduje się w wyżej cytowanej publikacji. 
+Definiuje się zapis $\bm{\mathrm{a}}(k,n,\theta)$, oznaczający wektor sterującym dla kąta padania $\theta$ i indeksu czasowo-częstotliwościowego $(k,n)$ oraz $\bm{\mathrm{\Phi}}(k,n)$ oznaczający macierz PSD sygnału dla tego samego indeksu czasowo-częstotliwościo
+
+\noindent Liczba nadchodzących fal $L$ może być wyestymowana na przykład zgodnie z publikacją \cite{n_src}. W tej pracy zakłada się jednak, że liczba źródeł jest znana.
+
+\noindent W rozkładzie na wartości własne macierzy $\bm{\mathrm{\Phi}}(k,n)$ wektory własne powiązane z L największymi wartościami własnymi nazywa się wektorami podprzestrzenii sygnału i oznacza jako $\bm{\mathrm{s}}_{i}$, zaś pozostałe wektory- wektorami z podprzestrzenii szumu $\bm{\mathrm{e}}_{i}$. Macierz $\bm{\mathrm{E}}(k,n)$ zawiera w kolejnych kolumnach kolejne wektory podprzestrzenii szumu.
+
+\begin{equation}
+    \label{equation:3.7}
+    \bm{\mathrm{E}}(k,n)=
+    [\bm{\mathrm{e}}_{1}(k,n)...
+    \bm{\mathrm{e}}_{M-L}(k,n)]
+\end{equation}
+
+\noindent Następnie definiuje się funkcję:
+\begin{equation}
+    \label{equation:3.8}
+    P(\theta,k,n)=
+    \dfrac{1}{
+    \bm{\mathrm{a}}^{\mathrm{H}}(\theta,k,n)
+    \bm{\mathrm{E}}(k,n)
+    \bm{\mathrm{E}}^{\mathrm{H}}(k,n)
+    \bm{\mathrm{a}}(\theta,k,n)
+    }
+\end{equation}
+\noindent 
+$L$ największych maksimów lokalnych takiej funkcji w dziedzinie kątów uznaje się za wyestymowane kierunki nadchodzenia fali.
+
+\noindent Celem algorytmu jest jednak uzyskanie jednego kierunku nadchodzenia fali dla $n$-tej chwili czasowej. Propozycją autora pracy jest zdefiniować taką funkcję $P_{a}(\theta,n)$, że:
+\begin{equation}
+    \label{equation:3.9}
+    P_{a}(\theta,n) = 
+    \dfrac{1}{K}\sum_{k=1}^{K}\,P(\theta,k,n)   
+\end{equation}
+
+\noindent Ponownie, $L$ największych maksimów lokalnych wskazuje kierunki nadchodzenia fali.
+
+\section{Automatyczna regulacja głośności}
+
+Autor publikacji \cite{Braun2014} proponuje zdefiniowanie funkcji przestrzennego rozkładu głośności(ang. SLD) zapisanego jako:
+
+\begin{equation}
+    \label{equation:3.10}
+    \Psi(\theta,n)=
+    \sum_{k=1}^{K} \beta^{2}(k)
+    \sum_{l=1}^{L}\delta_{\theta,\theta_{l}}
+    \, \phi_{l}(k,n)
+\end{equation}
+
+Gdzie $(k,n)$ to indeksy czasowo częstotliwościowe, $\delta_{\theta,\theta_{l}}$ to delta Kroneckera- sygnał przyjmujący wartość $1$ dla $\theta_{l}$ i $0$ dla pozostałych.
+
+

@@ -1,0 +1,94 @@
+\chapter{Analiza Teoretyczna problemu}
+\label{chapter-2}
+\section{Model systemu}
+
+Model sygnału jest zaczerpnięty z \cite{Thiergart2013} i \cite{Braun2014}, z tą różnicą, że w tej pracy wszystkie zakłócenia traktujemy razem.
+Zakłada się, że używanym czujnikiem jest macierz $M$ mikrofonów dookólnych rozłożonych na płaskiej powierzchnii w pozycjach $\bm{\mathrm{d}}_1...\bm{\mathrm{d}}_M$.
+
+Na czujnik pada $L$ fal płaskich, gdzie $M > L$ ośrodku izotropowym i jednorodnym, w którym obecne są zakłócenia.Każda z fal nadbiega z kąta ${\theta}_1...{\theta}_L$ Model może być zapisany w dziedzinie krótkoczasowej transformacji Fouriera(STFT) jako:
+\begin{equation}
+    \label{equation:2.1}
+    \bm{\mathrm{x}}(k,n)
+    =
+    [\mathrm{X}(k,n,\bm{\mathrm{d}}_{1})
+    ...
+    \mathrm{X}(k,n,\bm{\mathrm{d}}_{M})]^{T}
+\end{equation}
+lub alternatywnie jako:
+\begin{equation}
+    \label{equation:2.2}
+    \bm{\mathrm{x}}(k,n)=
+    \sum_{l=1}^{L} \bm{\mathrm{x}}_{l}(k,n)
+    + \bm{\mathrm{x}}_{\mathrm{n}}(k,n)
+\end{equation}
+
+\noindent gdzie $\bm{\mathrm{x}}_l(k,n)$ to wektor natężeń l-tej fali na poszczególnych mikrofonach a $\bm{\mathrm{x}}_{\mathrm{n}}(k,n)$ to wektor natężenia tła akustycznego na mikrofonach.
+Oznacza to, że otrzymany na każdym z mikrofonów sygnał jest mieszaniną sygnału z kilku różnych źródeł i zakłóceń.
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=\textwidth]{Images/model.png}
+    \caption{Model systemu}
+    \label{fig:model}
+\end{figure}
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=\textwidth]{Images/direction.png}
+    \caption{Opóźnienie fali na mikrofonie}
+    \label{fig:direction}
+\end{figure}
+\noindent Każdy z wektorów $\bm{\mathrm{x}}_l(k,n)$ może być opisany za pomocą równania:
+\begin{equation}
+    \label{equation:2.3}
+    \bm{\mathrm{x}}_l(k,n)=
+    \bm{\mathrm{a}}_l(k,n)X_{l}(k,n,\bm{\mathrm{d}}_{0})
+\end{equation}
+\noindent gdzie $\bm{\mathrm{a}}_l(k,n)X_{l}(k,n,\bm{\mathrm{d}}_{0})$ jest wartością natężenia l-tej fali w punkcie referencyjnym $\bm{\mathrm{d}}_0$. Często w publikacjach, na przykład w \cite{Braun2014} za punkt referencyjny jest wybierane położenie mikrofonu $\bm{\mathrm{d}}_1$. Autor pracy zdecydował się jednak na bardzej ogólne podejście do problemu.
+
+\noindent Wektor $\bm{\mathrm{a}}_l(k,n)$ będzie później przywoływany jako wektor sterujący. Charakteryzuje on przesunięcia fazowe między mikrofonami i jest zależny od kierunku nadchodzenia fali.
+
+
+\noindent Jako, że definicja wektora sterującego w dziedzinie częstotlowości może być nieintujcyjna, zostanie tu krótko wyjaśniona natura wektora sterującego.
+
+\noindent Załóżmy, że na mikrofon pada sygał nadchodzący z kierunku $\theta_{l}$.
+Zapis sygnału w punkcie $\bm{\mathrm{d}}_{0} = [0,0]$ to $\mathrm{f}_{l}(t)$. 
+Opóźnienie w czasie tego sygnału na mikrofonie położonym w $\bm{\mathrm{d}}_{\mathrm{m}} = [x_{\mathrm{m}},y_{\mathrm{m}}]$ względem punktu $\bm{\mathrm{d}}_{0}$ wynosić będzie zatem pewne $\mathrm{\tau}$. Różnica dróg między punktami wyniesie $\Delta d$ tak jak na rysunku \ref{fig:direction}. Za pomocą prostej trygonometrii może zostać udodnione, że:
+\begin{equation}
+    \label{equation:2.4}
+    \Delta d = -x_{\mathrm{m}}\cos{\theta_{l}} - y_{\mathrm{m}}\sin{\theta_{l}}
+\end{equation}
+Następnie przyjmując prędkość rozchodzenia się fali w ośrodku $c$ można zapisać, że:
+\begin{equation}
+    \label{equation:2.5}
+    \tau = \dfrac{\Delta d}{c}
+\end{equation}
+
+\noindent Przechodząc z sygnałem do dziedziny częstotliwości i zakładając parę transformat Fouriera $\mathrm{f}_{l}(t)\xleftrightarrow{}\mathrm{X}_{l}(f)$ można zapisać, że:
+\begin{equation}
+    \label{equation:2.6}
+    \mathrm{f}_{l}(t-\tau) \xleftrightarrow{} \mathrm{X}_{l}(f)e^{j 2 \pi f t} =
+    \mathrm{a}_{l}(f) \mathrm{X}_{l}(f) 
+\end{equation}
+
+\noindent W przypadku wielu mikrofonów:
+\begin{equation}
+    \label{equation:2.7}
+    \bm{\mathrm{x}}_l(f)=
+    \bm{\mathrm{a}}_l(f)\mathrm{X}_{l}(f)
+\end{equation}
+
+
+\noindent Taki zapis równania może być przeniesiony do dziedziny STFT. Wówczas otrzymane zostanie równanie \ref{equation:2.3}
+\noindent W pracy zakłada się, że kierunek nadchodzenia fali nie jest znany ale znana jest ilość źródeł L w systemie.
+
+
+\newpage
+\section{Postawiony Problem}
+
+W wyżej opisanym modelu mogą zostać zdefiniowane następujące potencjalne problemy:
+\begin{itemize}
+    \item Sygnał $\bm{\mathrm{x}}_{l_{i}}$ może charakteryzować się amplitudą różną od sygnału $\bm{\mathrm{x}}_{l_{j}}$ co będzie skutkować zagłuszaniem jednego z użytkowników systemu przez innego 
+    \item Natężenie sygnału $\bm{\mathrm{x}}_{l_{i}}$ może mocno fluktować w czasie z uwagi na przykład na przybliżanie i oddalanie się mówcy od mikrofonów
+    \item W systemie występuje tło akustyczne- nieprzyjemny dla ucha szum gaussowski i pogłos, powodujący, że dzwięk mówcy ma charakterystyczny nieprzyjmny efekt audio
+\end{itemize}

@@ -1,0 +1,72 @@
+\documentclass[a4paper, 11pt, openright, twoside]{report}
+
+\usepackage{graphicx}
+\usepackage{polski}
+\usepackage[english,polish]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage[top=3.5cm,bottom=4.5cm,left=3.5cm,right=3.5cm, bindingoffset=0cm, footskip=2.5cm]{geometry}
+\usepackage{setspace}
+\usepackage{multirow}
+\usepackage[unicode=true]{hyperref}
+\usepackage{subcaption}
+\usepackage{array}
+\usepackage{amsmath}
+\usepackage{placeins
+}\usepackage[
+    backend=biber,
+    sorting=nty,
+  ]{biblatex}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\usepackage{bm}
+\usepackage{commath}
+\usepackage{graphicx}
+\usepackage{mathtools}
+\usepackage{ragged2e}
+\usepackage{tcolorbox}
+\usepackage[normalem]{ulem}
+\usepackage[absolute,overlay]{textpos}
+\usepackage{xcolor}
+\addbibresource{export.bib}
+
+\input{listings.tex}
+
+\DeclareCaptionFont{smallcap}{\small}
+\captionsetup[figure]{font=smallcap}
+\captionsetup[table]{font=smallcap}
+
+\begin{document}
+
+\input{title.tex}
+
+%\input{statement.tex}
+
+\input{abstracts.tex}
+
+\selectlanguage{polish}
+%\selectlanguage{english}
+
+\tableofcontents
+\addcontentsline{toc}{chapter}{Spis treści}
+
+\input{chapter1.tex}
+
+\input{chapter2.tex}
+
+\input{chapter3.tex}
+
+\input{chapter4.tex}
+
+\input{chapter5.tex}
+
+\input{chapter6.tex}
+
+%\bibliographystyle{}
+%\bibliography{export}
+\printbibliography
+
+\appendix
+
+%\input{appendix-a.tex}
+
+\end{document}
