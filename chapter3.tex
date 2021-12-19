@@ -14,19 +14,25 @@ W pracy zdecydowano się rozwiązać problem na bazie metody opisanej w publikac
     \label{fig:block_diagram}
 \end{figure}
 
-\section{Macierz widmowej geśtości mocy}
+\section{Widmowa gęstość mocy}
 
+Widmowa gęstość mocy może być zapisana jako:
+\begin{equation}
+    \label{equation:PSD}
+    \phi_{l}(k,n) = \mathrm{E}
+    \{|X_{l}(k,n,\bm{\mathrm{d}}_{0})|\}
+\end{equation}
 Macierz widmowej gęstości mocy definiuje się następująco:
 
 \begin{equation}
-    \label{equation:3.1}
+    \label{equation:PSD matrix}
     \mathrm{\Phi}(k,n) = \mathrm{E} \, \{\bm{\mathrm{x}}(k,n) \bm{\mathrm{x}}^{H}(k,n)\}
 \end{equation}
 
 Zgodnie z \cite{Thiergart2013}, zakładając, że wszystkie elementy równania \ref{equation:2.2} są nieskorelowane, można zapisać:
 
 \begin{equation}
-    \label{equation:3.2}
+    \label{equation:PSD signal noise}
     \bm{\mathrm{\Phi}}(k,n) = 
     \sum_{l=1}^{L} \bm{\mathrm{\Phi}}_{l}(k,n) +
     \bm{\mathrm{\Phi}}_{\mathrm{n}}(k,n)
@@ -39,7 +45,7 @@ Gdzie odpowiednio $\bm{\mathrm{\Phi}}_{l}(k,n)$ i $\bm{\mathrm{\Phi}}_{\mathrm{n
 Ważnym elementem systemu będzie sterowanie tak zwaną przestrzenną funkcją głośnośni $G(\theta_{l},n)$. Funkcja ta jest odpowiedzialna za utrzymywanie głośności sygnału wyjściowego na założonym poziomie:
 
 \begin{equation}
-    \label{equation:3.3}
+    \label{equation:G}
     \mathrm{Y}(k,n)= 
     \sum_{l=1}^{L} G(\theta_{l},n)
     \mathrm{X}_{l}(k,n,\bm{\mathrm{d}}_0)
@@ -49,7 +55,7 @@ Ważnym elementem systemu będzie sterowanie tak zwaną przestrzenną funkcją g
 
 Punktem wyjściowym dla definicji filtru LCMV jest próba zapisania estymaty sygnału wyjściowego $\hat{\mathrm{Y}}(k,n)$ jako:
 \begin{equation}
-    \label{equation:3.4}
+    \label{equation:Y estimation}
     \hat{\mathrm{Y}}(k,n)=
     \bm{\mathrm{w}}^{\mathrm{H}}(k,n)
     \bm{\mathrm{x}}(k,n)
@@ -57,7 +63,7 @@ Punktem wyjściowym dla definicji filtru LCMV jest próba zapisania estymaty syg
 
 \noindent Aby znaleźć współncyznniki filtru $\bm{\mathrm{w}}_{\mathrm{n}}(k,n)$, które pozwolą jak najlepiej przybliżyć żądane rozwiązanie należy rozwiązać problem optymalizacyjny zdefiniowany przez dwa poniższe równania:
 \begin{equation}
-    \label{equation:3.5}
+    \label{equation:argmin}
     \bm{\mathrm{w}}_{\mathrm{n}}(k,n) = 
     \underset{\bm{\mathrm{w}}}{\mathrm{arg \, min}} \,
     \bm{\mathrm{w}}^{\mathrm{H}}
@@ -66,14 +72,14 @@ Punktem wyjściowym dla definicji filtru LCMV jest próba zapisania estymaty syg
 \end{equation}
 
 \begin{equation}
-    \label{equation:3.6}
+    \label{equation:constraint}
     \bm{\mathrm{w}}^{\mathrm{H}}
     \bm{\mathrm{a}}_{l}(k,n)=
     G(\theta_{l},n),
     \, \, l \in \{1,2,...,L\}
 \end{equation}
 
-Ten zapis oznacza, że żądany filtr powinien minimalizować podawane na wejście zakłócenia \ref{equation:3.5} i odpowiednio sterować głośnościami poszczególnych nadchodzących fal \ref{equation:3.6}.
+Ten zapis oznacza, że żądany filtr powinien minimalizować podawane na wejście zakłócenia \ref{equation:argmin} i odpowiednio sterować głośnościami poszczególnych nadchodzących fal \ref{equation:constraint}.
 
 \section{Algorytm MUSIC}
 
@@ -87,7 +93,7 @@ Definiuje się zapis $\bm{\mathrm{a}}(k,n,\theta)$, oznaczający wektor sterują
 \noindent W rozkładzie na wartości własne macierzy $\bm{\mathrm{\Phi}}(k,n)$ wektory własne powiązane z L największymi wartościami własnymi nazywa się wektorami podprzestrzenii sygnału i oznacza jako $\bm{\mathrm{s}}_{i}$, zaś pozostałe wektory- wektorami z podprzestrzenii szumu $\bm{\mathrm{e}}_{i}$. Macierz $\bm{\mathrm{E}}(k,n)$ zawiera w kolejnych kolumnach kolejne wektory podprzestrzenii szumu.
 
 \begin{equation}
-    \label{equation:3.7}
+    \label{equation:eigenvectors}
     \bm{\mathrm{E}}(k,n)=
     [\bm{\mathrm{e}}_{1}(k,n)...
     \bm{\mathrm{e}}_{M-L}(k,n)]
@@ -95,7 +101,7 @@ Definiuje się zapis $\bm{\mathrm{a}}(k,n,\theta)$, oznaczający wektor sterują
 
 \noindent Następnie definiuje się funkcję:
 \begin{equation}
-    \label{equation:3.8}
+    \label{equation:P}
     P(\theta,k,n)=
     \dfrac{1}{
     \bm{\mathrm{a}}^{\mathrm{H}}(\theta,k,n)
@@ -109,19 +115,20 @@ $L$ największych maksimów lokalnych takiej funkcji w dziedzinie kątów uznaje
 
 \noindent Celem algorytmu jest jednak uzyskanie jednego kierunku nadchodzenia fali dla $n$-tej chwili czasowej. Propozycją autora pracy jest zdefiniować taką funkcję $P_{a}(\theta,n)$, że:
 \begin{equation}
-    \label{equation:3.9}
+    \label{equation:Pa}
     P_{a}(\theta,n) = 
     \dfrac{1}{K}\sum_{k=1}^{K}\,P(\theta,k,n)   
 \end{equation}
 
 \noindent Ponownie, $L$ największych maksimów lokalnych wskazuje kierunki nadchodzenia fali.
 
+\newpage
 \section{Automatyczna regulacja głośności}
 
 Autor publikacji \cite{Braun2014} proponuje zdefiniowanie funkcji przestrzennego rozkładu głośności(ang. SLD) zapisanego jako:
 
 \begin{equation}
-    \label{equation:3.10}
+    \label{equation:SLD}
     \Psi(\theta,n)=
     \sum_{k=1}^{K} \beta^{2}(k)
     \sum_{l=1}^{L}\delta_{\theta,\theta_{l}}
@@ -129,5 +136,79 @@ Autor publikacji \cite{Braun2014} proponuje zdefiniowanie funkcji przestrzennego
 \end{equation}
 
 Gdzie $(k,n)$ to indeksy czasowo częstotliwościowe, $\delta_{\theta,\theta_{l}}$ to delta Kroneckera- sygnał przyjmujący wartość $1$ dla $\theta_{l}$ i $0$ dla pozostałych.
+
+
+\noindent Wartość współczynników $\beta$ może być określona na podstawie istniejących norm, na przykład \cite{coef}. Autor tej pracy iżynierskiej zdecydował jednak przyjąć wartość:
+
+\begin{equation}
+    \label{equation:beta}
+    \beta(k) = 1, \,\,\,\ k=\{1,2,...,K\}
+\end{equation}
+
+Definiuje się także długoczasową funkcję przestrzennego rozkładu głośności zdefiniowaną jako:
+
+\begin{equation}
+    \label{equation:LT_SLD}
+    \Psi(\theta,n)=
+    \alpha_{LT}\Psi_{LT}(\theta,n-1)
+    +(1-\alpha_{LT})\Psi(\theta,n)
+\end{equation}
+
+\noindent To działanie ma na celu wygładzenie funkcji w dziedzinie czasu. Głośność sygnału powinna być niewrażliwa na fluktuacje o bardzo dużych częstotliwościach. Taka definicja funkcji jest tożsama z filtracją dolnoprzepustową za pomocą filtra o nieskończonej odpowiedzi impulsowej(IIR).
+
+\noindent Funkcje nie są zależne od składowej częstotliwościowej bo celem pracy jest wzmocnienie amplitudy całego sygnału a nie poszczególnych pasm.
+
+\noindent Przestrzenną funkcje głośności dla danego kąta możnaby otrzymać za pomocą:
+
+\begin{equation}
+    \label{equation:sqrt}
+    G(\theta,n)=
+    \sqrt{\dfrac{\Psi_{target}(\theta)}{
+    \Psi_{LT}(\theta,n)}}
+\end{equation}
+
+\noindent Należy jednak zauważyć, że tak obliczona funkcja prowadziłaby do silnego wzmocnienia kierunków, w których nie ma sygnału. Co za tym idzie wzmacniane byłoby tłoakustyczne. Kilkustopniowy błąd estymacji kierunku nadchodzenia fali mógłby w praktyce uniemożliwić poprawne działanie systemu. Aby to uniemożliwić definiuje się minimalną moc uznawaną za sygnał $\Psi_{min}(n)$. Obliczona może być jako:
+
+\begin{equation}
+    \Psi_{\min}(n)=
+    \max({\dfrac{1}{2\pi} \int_{0}^{2\pi} \Psi(\theta,n) \, \mathrm{d}\theta, \, \Psi_{0}})
+\end{equation}
+Gdzie $\Psi_{0}$ jest pewną ustaloną granicą.
+
+\newpage
+
+\noindent Następnie  dany jest algorytm do obliczenia wygładzonej przestrzennej funkcji głośności $G'(\theta,n)$:
+
+
+\begin{algorithm}
+  
+  \caption{Obliczanie $G'(\theta,n)$}
+  \begin{algorithmic}[1]
+    \State Zainicjalizuj $G'(\theta,n)$ wartością 1 dla każdego kierunku
+    
+    \State  Znajdź maksimum globalne funkcji LT-SLD w dziedzinie kąta($\theta_{\max}$) i oblicz przestrzenną funkcją głośności $G(\theta_{max},n)$ za pomocą
+    
+    \State Wygeneruj okno przestrzenne o określonej szerokości $\Theta$, które ma wzmocnienie $1$ na brzegach i $G(\theta_{max},n)$ w środku.
+    
+    \State Umieść okno w $\theta_{\max}$ i wyzeruj wartości funkcji LT-SLD w punktach pokrytych przez okno.
+    
+    \State Kontynnuj krok 2 tak długo aż wszystie punkty funkcji LT-SLFD są poniżej progu $\Psi_{\min}$.
+  \end{algorithmic}
+\end{algorithm}
+
+\noindent Następnie oblicza się funkcję wygładzającą $\widehat{G}(\theta,n)$:
+
+\begin{equation}
+    \label{equation:Ghat}
+    \widehat{G}(\theta,n)=
+    \alpha_{G}\widehat{G}_(\theta,n)
+    + (1-\alpha_{G})G'(\theta,n)
+\end{equation}
+
+
+\noindent Funkcja tej operacji jest taka sama jak \ref{equation:LT_SLD}.
+
+
+
 
 
