@@ -21,14 +21,18 @@
 
 W założeniach oprogramowanie miał mieć charakter obiektowy. Główne bloki zostały zaimplementowane jako klasy, które komunikują się między sobą za pomocą interfejsów. Takie rozwiązanie powoduje usystematyzowaną strukturę projektu i umożliwia łatwy rozwój oprogramowania w przyszłości. Przykładem jest implementacja algorytmu MUSIC. Klasa MUSIC dziedziczy po klasie abstrakcyjnej DOA. W ten sposób proste w przyszłości będzie dopisanie w programie innego algorytmu estymacji kierunku nadchodzenia fali jako innej klasy dziedziczącej po DOA. Poniżej przedstawiono diagram klas w konwencji UML \cite{uml}:
 
-\begin{figure}[h]
+\begin{figure}[h!]
     \centering
     \includegraphics[width=\textwidth]{Images/uml.png}
     \caption{Diagram Klas}
     \label{fig:classes}
 \end{figure}
 
+
 \noindent W diagramie \ref{fig:classes} nie zawarto metod klas, ponieważ schemat behawioralny został już przedstawiony w \ref{fig:block_diagram}.
+
+
+\newpage
 
 \section{Generator}
 
@@ -47,11 +51,54 @@ Generator pełni ważną rolę w projekcie inżynierskim. Z tego powodu postanaw
 Schemat działania generatora jest względnie prosty. Przyjmuje się model przedstawiony w \ref{chapter-2}. Zakłada się, że sygnał wejściowy odpowiada wartości sygnału w punkcie $\bm{\mathrm{d}}_{0}$. Posiłkując się równaniami \ref{equation:2.4} i \ref{equation:2.5} można zapisać, że:
 
 \begin{equation}
-    \label{delay model}
+    \label{equation:delay model}
     f_{l}(\bm{\mathrm{d}}_{m},t) = 
     f_{l}(\bm{\mathrm{d}}_{0},t-\tau)
 \end{equation}
 
-\noindent Gdzie $f_{l}(\bm{\mathrm{d}}_{m},t)$ to wymuszenie $l$-tej fali dzwiękowej w punkcie $\bm{\mathrm{d}}_{m}$. W takim układzie możliwe są bieżące zmiany opóźnienia bazując na pozycji źródła.
+\noindent Gdzie $f_{l}(\bm{\mathrm{d}}_{m},t)$ to wymuszenie $l$-tej fali dzwiękowej w punkcie $\bm{\mathrm{d}}_{m}$. W takim układzie możliwe są bieżące zmiany opóźnienia bazując na pozycji źródła. Dodatkowo możliwa jest generacja białego szumu. Biały szum o mocy $\sigma$ może być przedstawiony jako zmienna losowa z rozkładu:
 
-\noindent Generator umożliwia funkcję 
+
+Generator umożliwia symulację pomieszczenia, w  którym znajduje się mikrofon. Za pomocą paczki rir generator \cite{rir} generowana jest odpowiedź impulsowa pokoju $h(t)$. Tak generowana odpowiedź nazywana będzie później pogłosem. Szczegóły dotyczące genezy takiego sposoby symulacji pomieszczenia mogą być znalezione w książce \cite{Kuttruff}. Ostatecznie zatem sygnał wejściowy na $m$-tym mikrofonie może być zapisany w dziedzinie czasu jako:
+
+\begin{equation}
+    \label{equation:full generator}
+    s(\bm{\mathrm{d}}_{m},t)=
+    \sum_{l=1}^{L}
+    f_{l}(\bm{\mathrm{d}}_{0},t-\tau_{l,m})*
+    h_{l}(t)+ n(t)
+\end{equation}
+
+Z uwagi na to, że w celu generacji filtra pogłosowego konieczne są konkretne pozycje źródeł i mikrofonu, włączenie symulacji pomieszczenia nie pozwala na zmiany pozycji źródeł w czasie symulacji.
+
+
+
+
+\section{Schemat przetwarzania danych}
+
+Algorytm przetwarza nagrane pliki dzwiękowe. Składa się z następujących kroków:
+
+\begin{algorithm}
+  
+  \caption{Schemat przetwarzania}
+  \begin{algorithmic}[1]
+    \State Na wejście trafia M ścieżek dzwiękowych
+    
+    \State Sygnał jest przetwarzany do reprezentacji STFT
+    
+    \State Przetwarzanie(DSP) odbywa się w pętli po kolejnych indeksach czasowych, nazywanych ramkami
+    
+    \State Na wyjściu przetwarzania sygnałów zwracany jest sygnał $Y(k,n)$ jako STFT
+    
+    \State Dane wyjściowe są przetwarzane za pomocą odwrotnego STFT(ISTFT) do postaci czasowej.
+    
+  \end{algorithmic}
+\end{algorithm}
+
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width=\textwidth]{Images/processing.png}
+    \caption{Schemat przetwarzania}
+    \label{fig:processing}
+\end{figure}
+

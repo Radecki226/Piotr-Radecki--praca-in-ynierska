@@ -79,7 +79,18 @@ Punktem wyjściowym dla definicji filtru LCMV jest próba zapisania estymaty syg
     \, \, l \in \{1,2,...,L\}
 \end{equation}
 
-Ten zapis oznacza, że żądany filtr powinien minimalizować podawane na wejście zakłócenia \ref{equation:argmin} i odpowiednio sterować głośnościami poszczególnych nadchodzących fal \ref{equation:constraint}.
+Ten zapis oznacza, że żądany filtr powinien minimalizować podawane na wejście zakłócenia \ref{equation:argmin} i odpowiednio sterować głośnościami poszczególnych nadchodzących fal \ref{equation:constraint}. Rozwiązanie tak postawionego problemu można znaleźć w \cite{Thiergart2013} zaś wyprowadzenie w \cite{Frost1972}:
+
+\begin{equation}
+    \label{equation:lcmv formula}
+    \bm{\mathrm{w}}_{\mathrm{n}}=
+    \bm{\mathrm{\Phi}}_{n}^{-1}\bm{\mathrm{A}}
+    [\bm{\mathrm{A}}^{\mathrm{H}} \bm{\mathrm{\Phi}}_{n} \bm{\mathrm{A}}]^{-1}
+    \bm{\mathrm{g}}
+\end{equation}
+
+\noindent Gdzie macierz $\bm{\mathrm{A}}(k,n)=
+[\bm{\mathrm{a}}_{1}...\bm{\mathrm{a}}_{L}]$ zaś wektor $\bm{\mathrm{g}}(n)=[G(\theta_{1},n)...G(\theta_{L},n)]^{T}$.
 
 \section{Algorytm MUSIC}
 
@@ -135,7 +146,17 @@ Autor publikacji \cite{Braun2014} proponuje zdefiniowanie funkcji przestrzennego
     \, \phi_{l}(k,n)
 \end{equation}
 
-Gdzie $(k,n)$ to indeksy czasowo częstotliwościowe, $\delta_{\theta,\theta_{l}}$ to delta Kroneckera- sygnał przyjmujący wartość $1$ dla $\theta_{l}$ i $0$ dla pozostałych.
+\noindent Gdzie $(k,n)$ to indeksy czasowo częstotliwościowe, $\delta_{\theta,\theta_{l}}$ to delta Kroneckera- sygnał przyjmujący wartość $1$ dla $\theta_{l}$ i $0$ dla pozostałych.
+
+\noindent Aby wyestymować PSD $\phi_{i}$ $i$-tej fali dokonuje się filtracji filtrem LCMV takim, że:
+\begin{equation}
+    \label{equation:power estimation}
+    \bm{\mathrm{w}}^{\mathrm{H}}\bm{\mathrm{a}}_{l}(k,n)=
+    \begin{cases}
+        1 \quad l=i \\
+        0 \quad l \neq i
+    \end{cases}
+\end{equation}
 
 
 \noindent Wartość współczynników $\beta$ może być określona na podstawie istniejących norm, na przykład \cite{coef}. Autor tej pracy iżynierskiej zdecydował jednak przyjąć wartość:
@@ -145,7 +166,7 @@ Gdzie $(k,n)$ to indeksy czasowo częstotliwościowe, $\delta_{\theta,\theta_{l}
     \beta(k) = 1, \,\,\,\ k=\{1,2,...,K\}
 \end{equation}
 
-Definiuje się także długoczasową funkcję przestrzennego rozkładu głośności zdefiniowaną jako:
+\noindent Definiuje się także długoczasową funkcję przestrzennego rozkładu głośności zdefiniowaną jako:
 
 \begin{equation}
     \label{equation:LT_SLD}
@@ -181,7 +202,7 @@ Gdzie $\Psi_{0}$ jest pewną ustaloną granicą.
 
 
 \begin{algorithm}
-  
+  \label{alg:gprim}
   \caption{Obliczanie $G'(\theta,n)$}
   \begin{algorithmic}[1]
     \State Zainicjalizuj $G'(\theta,n)$ wartością 1 dla każdego kierunku
@@ -201,7 +222,7 @@ Gdzie $\Psi_{0}$ jest pewną ustaloną granicą.
 \begin{equation}
     \label{equation:Ghat}
     \widehat{G}(\theta,n)=
-    \alpha_{G}\widehat{G}_(\theta,n)
+    \alpha_{G}\widehat{G}(\theta,n)
     + (1-\alpha_{G})G'(\theta,n)
 \end{equation}
 
