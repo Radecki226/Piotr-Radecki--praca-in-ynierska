@@ -1,7 +1,9 @@
 \chapter{Testy}
 \label{chapter-5}
 \section{Konfiguracja}
-Dla celów testów przyjęto pewne sztywne założenia. Wszystkie testy są przeprowadzane na sygnałach mowy próbkowanych na częstotliwości 4kHz. STFT i ISTFT jest obliczane przy pomocy okna hanninga \cite{hann} ze współczynnikiem nachodzenia okien(ang. overlap) 50$\%$. Jako okno przestrzenne wspomniane w \ref{alg:gprim} także przyjęto okno hanninga o szerokości $20^{\circ}$. Współczynniki $\alpha_{\mathrm{LT}}$ i $\alpha_{G}$ mają wartości 0.9. Jako macierz mikrofonową przyjęto kwadratową strukturę o liczbie mikrofonów $M=16$ o równomiernej odegłości między mikrofonami równej $\delta d = 1cm$. Na potrzeby niektórych eksperymentów odległość między mikrofonami była zwiększana.
+Dla celów testów przyjęto pewne sztywne założenia. Jako prędkość dzwięku przyjmuje się $343 \dfrac{m}{s}$ Wszystkie testy są przeprowadzane na sygnałach mowy próbkowanych na częstotliwości 4kHz. STFT i ISTFT jest obliczane przy pomocy okna hanninga \cite{hann} ze współczynnikiem nachodzenia okien(ang. overlap) 50$\%$. Jako okno przestrzenne wspomniane w \ref{alg:gprim} także przyjęto okno hanninga o szerokości $20^{\circ}$. Liczba próbek $N$, z których wyliczana jest macierz PSD jest równa 100. Współczynniki $\alpha_{\mathrm{LT}}$ i $\alpha_{G}$ mają wartości 0.9. Jako macierz mikrofonową przyjęto kwadratową strukturę o liczbie mikrofonów $M=16$ o równomiernej odegłości między mikrofonami równej $\delta d = 1cm$. Na potrzeby niektórych eksperymentów odległość między mikrofonami była zwiększana.
+
+W eksperymentach, w których włączony jest pogłos symulowany jest pokój o wymiarach 7m x 5m x 3m. Macierz umieszczona jest w punkcie $[2,2,1.6]$ a mówcy znajdują się w odległości 1.5m od niej. Ilustracja znajduje się na rysunku \ref{fig:room}.
 
 \begin{figure}[h!]
     \centering
@@ -19,8 +21,112 @@ W sekcjach poniżej kolejno opisywane są wykonywane testy i doświadczenia.
 Poniżej przedstawiono wykresy charakterystyki kierunkowej dla filtra LCMV o następujących parametrach:
 
 \begin{itemize}
-    \item $\theta_{0}=30^{\circle},\theta_{1}=120^{\circle},
-    \theta_{2}=300^{\circle}$
-    \item $G(\theta_{0})=4,G(\theta_{1})=2,G(\theta_{2})=1$
+    \item $\theta_{0}=30^{\circ}, \,
+    \theta_{1}=120^{\circ}, \,
+    \theta_{2}=300^{\circ}$
+    \item $G(\theta_{0})=4, \,
+    G(\theta_{1})=2, \,
+    G(\theta_{2})=1$
 \end{itemize}
+\noindent dla częstotliwości 100Hz, 500Hz i 2kHz.
+
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width=\textwidth]{Images/directivity0.02m.png}
+    \caption{Charakterystyka kierunkowa dla $\Delta d = 2cm$}
+    \label{fig:directivity0.02}
+\end{figure}
+
+\noindent Załączony obrazek \ref{fig:directivity0.02} pokazuje, że filtr prawidłowo generuje wymuszenia w określonych kierunkach. Właściwości usuwania tła akustycznego zostaną sprawdzone w kolejnych sekcjach.
+
+\noindent Zgodnie z teorią przedstawioną w \cite{mccowan2001} wraz ze wzrostem stosunku $\dfrac{\Delta d}{\lambda}$, gdzie $\lambda$ to długość fali, rośnie kierunkowość filtru. Prowadzi to do sytuacji, w której maksima są bardzo wąskie i wartość charakterystyki kierunkowej silnie fluktuuje w dziedzinie kątów. Nieznaczny błąd estymacji kierunku nadchodzenia fali może więc prowadzić do fatalnych skutków. Zjawisko pojawiania się dużej liczby minimów i maksimów nazywane jest aliasingiem przestrzennym. Zachodzi dla $\Delta d > \dfrac{\lambda}{2}$. Przy założonej prędkości dzwięku dla częstotliwości $f = 4kHz$ granica aliasingu przestrzennego wystąpi dla $\Delta d \approx 4cm $.Dlatego właśnie zdecydowano się wybrać bezpieczną odległość między mikrofonami $\Delta d = 2cm$.
+
+\noindent Warte pokazania są wykresy takich samych filtrów jeśli mikrofony byłyby oddalone od siebie odpowiednio o $\Delta d = 20cm$ i $\Delta d = 2m$:
+
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width=\textwidth]{Images/directivity0.2m.png}
+    \caption{Charakterystyka kierunkowa dla $\Delta d = 20cm$}
+    \label{fig:directivity0.2}
+\end{figure}
+
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width=\textwidth]{Images/directivity2m.png}
+    \caption{Charakterystyka kierunkowa dla $\Delta d = 2m$}
+    \label{fig:directivity2}
+\end{figure}
+
+\newpage
+
+\section{Ewaluacja algorytmu MUSIC}
+
+\noindent W celu sprawdzenia działania zaproponowanego algorytmu MUSIC sprawdzone są różne warianty rozłożenia mówców:
+
+\begin{itemize}
+    \item Jeden mówca usytuowany na kącie $\theta_{0} = 78^{\circ}$
+
+    \item Trzech mówców usytuowanych na kątach $\theta_{0} = 78^{\circ}, \, \theta_{1} = 192^{\circ}, \, \theta_{2} = 301^{\circ}$
+    
+\end{itemize}
+
+
+\noindent Wszystkie powyższe scenariusze będą powtórzone dla następjących konfiguracji odległości między mikrofonami, wartości stosunku sygnału do szumu i obecności pogłosu:
+
+\begin{itemize}
+    \item $\mathrm{SNR}=20dB, \, \Delta d = 2cm$ 
+    \item $\mathrm{SNR}=-10dB, \, \Delta d = 2cm$
+    \item $\mathrm{SNR}=20dB, \, \Delta d = 2cm, \,$ pogłos włączony
+\end{itemize}
+
+\noindent Te same trzy wykresy zostały także wygenerowane dla $\Delta d = 20cm$.
+
+\section(Wizualizacja Działania AGC)
+
+W celu oceny działania kontroli głośności i zrozumienia połączeń pomiędzy funkcjami $\Psi$, $\Psi_{\mathrm(LT)}$, $G'$, $\widehat(G)$. 
+
+\section{Testy całego systemy}
+
+Testy całego systemu sprawdzają kilka różnych aspektów projektu inżynierskiego. Są to:
+
+\begin{itemize}
+    \item Stosunek sygnału do szumu(SNR)
+    \item Ocena działania systemu dla jednego użytkownia
+    \item Ocena działania systemu dla wielu użytkowników
+    \item Ewaluacja wpływu poruszania się źródła na działanie algorytmu
+    \item Sprawdzenie wpływu pogłosu na jakość przetwarzania
+    \item Wizualizacja 
+    
+\end{itemize}
+\subsection{SNR}
+
+Obliczenie SNR dla systemu jest obliczane zarówno dla systemu z pojedynczym użytkownikiem jak i z trzema użytkownikami. Aby obliczyć SNR zakłada się, że $\bm{\mathrm}g = {1,..,1}$ dla każdego indeksu czasowego. Oznacza to wyłączenie AGC. Z włączonym AGC następowałyby zmiany lokalnej amplitudy sygnału uniemożliwiając sensowny pomiar SNR. Porównanie sygnału przed odszumieniem i po odszumieniu znajduje się na \ref{fig:SNR}. Wszystkie pomiary SNR podaje się w skali logarytmicznej.
+
+\noindent Zastosowano następującą normę pomiaru poprawy SNR:
+\begin{equation}
+    \label{delta_SNR}
+    \Delta \mathrm{SNR} = \mathrm{SNR}_{\mathrm{output}} - \mathrm{SNR}_{\mathrm{input}}
+\end{equation}
+
+\noindent Gdzie SNR na wejściu $\mathrm{SNR}_{\mathrm{input}}$ jest znane a mając do dyspozycji niezaszumiony sygnał referencyjny $s_{\mathrm{ref}}(n)$ i sygnał zaszumiony $s_{\mathrm{noisy}}(n)$ można także obliczyć stosunek sygnału do szumu dla $N$ próbek sygnału jako:
+
+\begin{equation}
+    \label{SNR}
+    \mathrm{SNR} = 10 \log \sum_{n=1}^{N}\left(
+    \dfrac
+    {s_{\mathrm{ref}}(n)}
+    {s_{\mathrm{ref}}(n)-s_{\mathrm{noisy}}(n)} \right)^{2}
+\end{equation}
+
+\noindent Uzyskano następujące wyniki:
+\begin{itemize}
+    \item Pojedynczy użytkownik: $\mathrm{SNR} \approx 12dB$ 
+\end{itemize}
+
+
+
+
+
+
+
 

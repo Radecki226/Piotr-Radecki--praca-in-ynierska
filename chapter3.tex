@@ -29,6 +29,14 @@ Macierz widmowej gęstości mocy definiuje się następująco:
     \mathrm{\Phi}(k,n) = \mathrm{E} \, \{\bm{\mathrm{x}}(k,n) \bm{\mathrm{x}}^{H}(k,n)\}
 \end{equation}
 
+W praktyce jest obliczana jako średnia z $N$ zebranych próbek:
+\begin{equation}
+    \label{equation: PSD in practice}
+    \mathrm{\Phi}(k,n)=
+    \dfrac{1}{N} \sum_{i = n-N}^{n-1}
+    \bm{\mathrm{x}}(k,i) \bm{\mathrm{x}}^{H}(k,i)
+\end{equation}
+
 Zgodnie z \cite{Thiergart2013}, zakładając, że wszystkie elementy równania \ref{equation:2.2} są nieskorelowane, można zapisać:
 
 \begin{equation}
