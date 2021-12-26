@@ -1,9 +1,16 @@
 \chapter{Testy}
 \label{chapter-5}
 \section{Konfiguracja}
-Dla celów testów przyjęto pewne sztywne założenia. Jako prędkość dzwięku przyjmuje się $343 \dfrac{m}{s}$ Wszystkie testy są przeprowadzane na sygnałach mowy próbkowanych na częstotliwości 4kHz. STFT i ISTFT jest obliczane przy pomocy okna hanninga \cite{hann} ze współczynnikiem nachodzenia okien(ang. overlap) 50$\%$. Jako okno przestrzenne wspomniane w \ref{alg:gprim} także przyjęto okno hanninga o szerokości $20^{\circ}$. Liczba próbek $N$, z których wyliczana jest macierz PSD jest równa 100. Współczynniki $\alpha_{\mathrm{LT}}$ i $\alpha_{G}$ mają wartości 0.9. Jako macierz mikrofonową przyjęto kwadratową strukturę o liczbie mikrofonów $M=16$ o równomiernej odegłości między mikrofonami równej $\delta d = 1cm$. Na potrzeby niektórych eksperymentów odległość między mikrofonami była zwiększana.
+Dla celów testów przyjęto pewne sztywne założenia. Jako prędkość dzwięku przyjmuje się $343 \dfrac{m}{s}$ Wszystkie testy są przeprowadzane na sygnałach mowy próbkowanych na częstotliwości 4kHz. STFT i ISTFT jest obliczane przy pomocy okna hanninga \cite{hann} ze współczynnikiem nachodzenia okien(ang. overlap) 50$\%$. Jako okno przestrzenne wspomniane w \ref{alg:gprim} także przyjęto okno hanninga o szerokości $20^{\circ}$. Liczba ramek $N$, z których wyliczana jest macierz PSD jest równa 100.Aktualizacja DOA odbywa się co 10 próbek. Współczynniki $\alpha_{\mathrm{LT}}$ i $\alpha_{G}$ mają wartości 0.9. Jako macierz mikrofonową przyjęto kwadratową strukturę o liczbie mikrofonów $M=16$ o równomiernej odegłości między mikrofonami równej $\delta d = 1cm$. Na potrzeby niektórych eksperymentów odległość między mikrofonami była zwiększana.
 
 W eksperymentach, w których włączony jest pogłos symulowany jest pokój o wymiarach 7m x 5m x 3m. Macierz umieszczona jest w punkcie $[2,2,1.6]$ a mówcy znajdują się w odległości 1.5m od niej. Ilustracja znajduje się na rysunku \ref{fig:room}.
+
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width=0.4\textwidth]{Images/room.png}
+    \caption{Symulowany Pokój}
+    \label{fig:room}
+\end{figure}
 
 \begin{figure}[h!]
     \centering
@@ -70,18 +77,63 @@ Poniżej przedstawiono wykresy charakterystyki kierunkowej dla filtra LCMV o nas
     
 \end{itemize}
 
-
 \noindent Wszystkie powyższe scenariusze będą powtórzone dla następjących konfiguracji odległości między mikrofonami, wartości stosunku sygnału do szumu i obecności pogłosu:
 
 \begin{itemize}
-    \item $\mathrm{SNR}=20dB, \, \Delta d = 2cm$ 
-    \item $\mathrm{SNR}=-10dB, \, \Delta d = 2cm$
-    \item $\mathrm{SNR}=20dB, \, \Delta d = 2cm, \,$ pogłos włączony
+    \item $\mathrm{SNR}=10\mathrm{dB}$ 
+    \item $\mathrm{SNR}=-10\mathrm{dB}$
+    \item $\mathrm{SNR}=10\mathrm{dB}, \, $ pogłos włączony
 \end{itemize}
 
-\noindent Te same trzy wykresy zostały także wygenerowane dla $\Delta d = 20cm$.
+\noindent Te wartości zostały sprawdzone dla $\Delta d = 2cm$ i $\Delta d = 20cm$ dla porównania. Wygenerowane wykresy przedstawiające znalezione DOA mogą być znalezione w tekście jako załączniki \ref{fig:music_10db_2cm}-\ref{fig:music_10db_20cm_reverb}. Na przedstawionych wykresach po lewej stronie znajduje się efekt działania dla jednego źródła a po prawej dla trzech źródeł.
 
-\section(Wizualizacja Działania AGC)
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width=\textwidth]{Images/music_10db.png}
+    \caption{$\mathrm{SNR}=10\mathrm{dB}, \, \Delta d = 2cm$}
+    \label{fig:music_10db_2cm}
+\end{figure}
+
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width=\textwidth]{Images/music_-10db.png}
+    \caption{$\mathrm{SNR}=-10\mathrm{dB}, \, \Delta d = 2cm$}
+    \label{fig:music_-10db_2cm}
+\end{figure}
+
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width=\textwidth]{Images/music_10db_reverb.png}
+    \caption{$\mathrm{SNR}=10\mathrm{dB}, \, \Delta d = 2cm$ z pogłosem}
+    \label{fig:music_10db_2cm_reverb}
+\end{figure}
+
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width=\textwidth]{Images/music_10db_0.2m.png}
+    \caption{$\mathrm{SNR}=10\mathrm{dB}, \, \Delta d = 20cm$}
+    \label{fig:music_10db_20cm}
+\end{figure}
+
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width=\textwidth]{Images/music_-10db_0.2m.png}
+    \caption{$\mathrm{SNR}=-10\mathrm{dB}, \, \Delta d = 20cm$}
+    \label{fig:music_-10db_20cm}
+\end{figure}
+
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width=\textwidth]{Images/music_10db_reverb_0.2m.png}
+    \caption{$\mathrm{SNR}=10\mathrm{dB}, \, \Delta d = 20cm$ z pogłosem}
+    \label{fig:music_10db_20cm_reverb}
+\end{figure}
+
+\newpage
+
+\newpage
+
+\section{Wizualizacja Działania AGC}
 
 W celu oceny działania kontroli głośności i zrozumienia połączeń pomiędzy funkcjami $\Psi$, $\Psi_{\mathrm(LT)}$, $G'$, $\widehat(G)$. 
 
@@ -91,16 +143,15 @@ Testy całego systemu sprawdzają kilka różnych aspektów projektu inżyniersk
 
 \begin{itemize}
     \item Stosunek sygnału do szumu(SNR)
-    \item Ocena działania systemu dla jednego użytkownia
+    \item Ocena działania systemu dla jednego użytkownika
     \item Ocena działania systemu dla wielu użytkowników
     \item Ewaluacja wpływu poruszania się źródła na działanie algorytmu
     \item Sprawdzenie wpływu pogłosu na jakość przetwarzania
-    \item Wizualizacja 
     
 \end{itemize}
 \subsection{SNR}
 
-Obliczenie SNR dla systemu jest obliczane zarówno dla systemu z pojedynczym użytkownikiem jak i z trzema użytkownikami. Aby obliczyć SNR zakłada się, że $\bm{\mathrm}g = {1,..,1}$ dla każdego indeksu czasowego. Oznacza to wyłączenie AGC. Z włączonym AGC następowałyby zmiany lokalnej amplitudy sygnału uniemożliwiając sensowny pomiar SNR. Porównanie sygnału przed odszumieniem i po odszumieniu znajduje się na \ref{fig:SNR}. Wszystkie pomiary SNR podaje się w skali logarytmicznej.
+Obliczenie SNR dla systemu jest obliczane zarówno dla systemu z pojedynczym użytkownikiem jak i z trzema użytkownikami. Aby obliczyć SNR zakłada się, że $\bm{\mathrm}g = \{1,..,1\}$ dla każdego indeksu czasowego. Oznacza to wyłączenie AGC. Z włączonym AGC następowałyby zmiany lokalnej amplitudy sygnału uniemożliwiając sensowny pomiar SNR. Wszystkie pomiary SNR podaje się w skali logarytmicznej.
 
 \noindent Zastosowano następującą normę pomiaru poprawy SNR:
 \begin{equation}
@@ -117,11 +168,24 @@ Obliczenie SNR dla systemu jest obliczane zarówno dla systemu z pojedynczym uż
     {s_{\mathrm{ref}}(n)}
     {s_{\mathrm{ref}}(n)-s_{\mathrm{noisy}}(n)} \right)^{2}
 \end{equation}
+\noindent Taki pomysł obliczania SNR zaczerpnięto luźno z \cite{Virtanen2006}.
 
 \noindent Uzyskano następujące wyniki:
 \begin{itemize}
     \item Pojedynczy użytkownik: $\mathrm{SNR} \approx 12dB$ 
+    \item Trzech użytkowników: $\mathrm{SNR} \approx 6db$
 \end{itemize}
+
+\noindent Wykresy przedstawiające sygnały przed i po odszumaniu przedstawiono na \ref{fig:snr_boost}
+
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width=\textwidth]{Images/snr_boost.png}
+    \caption{Poprawa SNR}
+    \label{fig:snr_boost}
+\end{figure}
+
+
 
 
 
