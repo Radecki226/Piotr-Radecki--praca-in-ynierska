@@ -82,54 +82,54 @@ Poniżej przedstawiono wykresy charakterystyki kierunkowej dla filtra LCMV o nas
 \begin{itemize}
     \item $\mathrm{SNR}=10\mathrm{dB}$ 
     \item $\mathrm{SNR}=-10\mathrm{dB}$
-    \item $\mathrm{SNR}=10\mathrm{dB}, \, $ pogłos włączony
+    \item $\mathrm{SNR}=10\mathrm{dB}, \, $ z pogłosem
 \end{itemize}
 
 \noindent Te wartości zostały sprawdzone dla $\Delta d = 2cm$ i $\Delta d = 20cm$ dla porównania. Wygenerowane wykresy przedstawiające znalezione DOA mogą być znalezione w tekście jako załączniki \ref{fig:music_10db_2cm}-\ref{fig:music_10db_20cm_reverb}. Na przedstawionych wykresach po lewej stronie znajduje się efekt działania dla jednego źródła a po prawej dla trzech źródeł.
 
-\begin{figure}[h!]
+\begin{figure}[H]
     \centering
-    \includegraphics[width=\textwidth]{Images/music_10db.png}
+    \includegraphics[width=0.85\textwidth]{Images/music_10db.png}
     \caption{$\mathrm{SNR}=10\mathrm{dB}, \, \Delta d = 2cm$}
     \label{fig:music_10db_2cm}
 \end{figure}
 
-\begin{figure}[h!]
+\begin{figure}[H]
     \centering
-    \includegraphics[width=\textwidth]{Images/music_-10db.png}
+    \includegraphics[width=0.85\textwidth]{Images/music_-10db.png}
     \caption{$\mathrm{SNR}=-10\mathrm{dB}, \, \Delta d = 2cm$}
     \label{fig:music_-10db_2cm}
 \end{figure}
 
-\begin{figure}[h!]
+\begin{figure}[H]
     \centering
-    \includegraphics[width=\textwidth]{Images/music_10db_reverb.png}
+    \includegraphics[width=0.85\textwidth]{Images/music_10db_reverb.png}
     \caption{$\mathrm{SNR}=10\mathrm{dB}, \, \Delta d = 2cm$ z pogłosem}
     \label{fig:music_10db_2cm_reverb}
 \end{figure}
 
-\begin{figure}[h!]
+\begin{figure}[H]
     \centering
-    \includegraphics[width=\textwidth]{Images/music_10db_0.2m.png}
+    \includegraphics[width=0.85\textwidth]{Images/music_10db_0.2m.png}
     \caption{$\mathrm{SNR}=10\mathrm{dB}, \, \Delta d = 20cm$}
     \label{fig:music_10db_20cm}
 \end{figure}
 
-\begin{figure}[h!]
+\begin{figure}[H]
     \centering
-    \includegraphics[width=\textwidth]{Images/music_-10db_0.2m.png}
+    \includegraphics[width=0.85\textwidth]{Images/music_-10db_0.2m.png}
     \caption{$\mathrm{SNR}=-10\mathrm{dB}, \, \Delta d = 20cm$}
     \label{fig:music_-10db_20cm}
 \end{figure}
 
-\begin{figure}[h!]
+\begin{figure}[H]
     \centering
-    \includegraphics[width=\textwidth]{Images/music_10db_reverb_0.2m.png}
+    \includegraphics[width=0.85\textwidth]{Images/music_10db_reverb_0.2m.png}
     \caption{$\mathrm{SNR}=10\mathrm{dB}, \, \Delta d = 20cm$ z pogłosem}
     \label{fig:music_10db_20cm_reverb}
 \end{figure}
 
-\newpage
+Wyniki dotyczące wpływu szumu nie zaskakują- algorytm działa mniej dokładnie dla niskiego SNR. To samo dotyczy pogłosu, użyty algorytm nie jest odporny na tego typu zakłócenia. Pojawiające się odbite fale wewnątrzpokoju czynią maksima mniej wybitnymi. Najbardziej interesująca obserwacja zdaniem autora pracy to wpływ odległości między mikrofonami. Większa odległość powoduje większą kierunkowość co przekłada się na dokładniejszą estymację. Dla rozłożenia $\Delta \d = 20cm$ i szumie $\mathrm{SNR}=-10\mathrm{dB}$ udaje się dokładnie wyestomować wszystkie trzy kierunki. Dla tego samego stosunku sygnału do szumu i $\Delta d = 2cm$ algorytm estymuje tylko dwa kierunki i to bardzo niedokładnie. Do dalszych testów wybrano jednak system ze stosunkiem sygnału do szumu na poziomie 10dB a mówcy są dość daleko od siebie.Zbytnia kierunkowość powoduje duże problemy z zastosowaniem filtra LCMV i nawet bardzo dokładna estymacja nie rekompensuje tych strat. .Doświadczenia empiryczne pokazały, że cały system działa lepiej dla $\Delta d = 2cm$.
 
 \newpage
 
@@ -173,7 +173,7 @@ Obliczenie SNR dla systemu jest obliczane zarówno dla systemu z pojedynczym uż
 \noindent Uzyskano następujące wyniki:
 \begin{itemize}
     \item Pojedynczy użytkownik: $\mathrm{SNR} \approx 12dB$ 
-    \item Trzech użytkowników: $\mathrm{SNR} \approx 6db$
+    \item Trzech użytkowników: $\mathrm{SNR} \approx 6dB$
 \end{itemize}
 
 \noindent Wykresy przedstawiające sygnały przed i po odszumaniu przedstawiono na \ref{fig:snr_boost}
@@ -184,6 +184,38 @@ Obliczenie SNR dla systemu jest obliczane zarówno dla systemu z pojedynczym uż
     \caption{Poprawa SNR}
     \label{fig:snr_boost}
 \end{figure}
+
+\subsection{Działanie algorytmu dla pojedynczego użytkownika}
+
+Ocenę algorytmu dla pojedynczego użytkownika przeprowadzono w warunkach gdzie użytkownik jest ustawiony na $\theta_{0}=78^{\circ}$. Nagrany sygnał ma długość 50000 próbek co przekłada się na nieco ponad 6 sekund.
+\noindent W celu oceny jakości działania sprawdza się dwa warianty zmian sygnału w czasie:
+\begin{itemize}
+    \item Dziesięciokrotny wykładniczy wzrost amplitudy w czasie trwania sygnału
+    \item Dziesięciokrotny wykładniczy spadek amplitudy w czasie trwania sygnału
+\end{itemize}
+
+\noindent W obu przypadkach początkowy SNR wynosi 10dB. Wyniki eksperymentu przedstawiono na wykresach \ref{fig:single_user_increasing} i \ref{fig:single_user_decreasing}
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=\textwidth]{Images/single_user_increasing.png}
+    \caption{Wzrost amplitudy sygnału dla pojedynczego użytkownika}
+    \label{fig:single_user_increasing}
+\end{figure}
+
+\begin{figure}
+    \centering
+    \includegraphics[width=\textwidth]{Images/single_user_decreasing.png}
+    \caption{Spadek amplitudy sygnału dla pojedynczego użytkownika}
+    \label{fig:single_user_decreasing}
+\end{figure}
+
+\noindent Wyniki wymagają krótkiego komentarza. Widoczne jest, że w obu przypadkach mimo, że amplituda sygnału wejściowego silnie zmienia się w czasie, sygnał wyjściowy utrzymuje względnie stały poziom obwiedni. Szczególnie interesujący jest fakt, że w przypadku słabnącego sygnały wejściowego wzmocnienie sygnału powoduje jego wyjście ponad poziom szumu.
+
+\subsection{Działanie algorytmu dla wielu użytkowników}
+
+W przypadku wielu użytkowników nie jest tak łatwo zaprezentować działanie algorytmu za pomocą wykresu wyjściowego. W celu oceny działania algorytmu konieczne będzie obejrzenie zależności wewnętrzych pomiędzy sygnałami $\Phi$, $\Phi_{\mathrm(LT_SLD)}$, $G'$, $\widehat{G}$. Co więcej zachęca się czytelnika pracy do zapoznania się z próbkami znajdującymi się na stronie...
+
 
 
 
