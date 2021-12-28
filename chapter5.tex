@@ -1,7 +1,9 @@
 \chapter{Testy}
 \label{chapter-5}
 \section{Konfiguracja}
-Dla celów testów przyjęto pewne sztywne założenia. Jako prędkość dzwięku przyjmuje się $343 \dfrac{m}{s}$ Wszystkie testy są przeprowadzane na sygnałach mowy próbkowanych na częstotliwości 4kHz. STFT i ISTFT jest obliczane przy pomocy okna hanninga \cite{hann} ze współczynnikiem nachodzenia okien(ang. overlap) 50$\%$. Jako okno przestrzenne wspomniane w \ref{alg:gprim} także przyjęto okno hanninga o szerokości $20^{\circ}$. Liczba ramek $N$, z których wyliczana jest macierz PSD jest równa 100.Aktualizacja DOA odbywa się co 10 próbek. Współczynniki $\alpha_{\mathrm{LT}}$ i $\alpha_{G}$ mają wartości 0.9. Jako macierz mikrofonową przyjęto kwadratową strukturę o liczbie mikrofonów $M=16$ o równomiernej odegłości między mikrofonami równej $\delta d = 1cm$. Na potrzeby niektórych eksperymentów odległość między mikrofonami była zwiększana.
+Dla celów testów przyjęto pewne sztywne założenia. Jako prędkość dzwięku przyjmuje się $343 \dfrac{m}{s}$ Wszystkie testy są przeprowadzane na sygnałach mowy próbkowanych na częstotliwości 4kHz. STFT i ISTFT jest obliczane przy pomocy okna hanninga \cite{hann} ze współczynnikiem nachodzenia okien(ang. overlap) 50$\%$. Jako okno przestrzenne wspomniane w \ref{alg:gprim} także przyjęto okno hanninga o szerokości $40^{\circ}$. Liczba ramek $N$, z których wyliczana jest macierz PSD jest równa 100.Aktualizacja DOA odbywa się co 10 próbek. Współczynniki $\alpha_{\mathrm{LT}}$ i $\alpha_{G}$ mają wartości 0.9. Jako macierz mikrofonową przyjęto kwadratową strukturę o liczbie mikrofonów $M=16$ o równomiernej odegłości między mikrofonami równej $\delta d = 1cm$. Na potrzeby niektórych eksperymentów odległość między mikrofonami była zwiększana.
+
+\noindent Podawane sygnały dzwiękowe są znormalizowane w ten sposób, że moduł z ich maksymalnej wartości wynosi 1. Przekłada się to na moce średnie z zakresu 0.1-0.2. Zdecydowano zatem, że parametr $\Psi_{0} = 0.001$. 
 
 W eksperymentach, w których włączony jest pogłos symulowany jest pokój o wymiarach 7m x 5m x 3m. Macierz umieszczona jest w punkcie $[2,2,1.6]$ a mówcy znajdują się w odległości 1.5m od niej. Ilustracja znajduje się na rysunku \ref{fig:room}.
 
@@ -203,7 +205,7 @@ Ocenę algorytmu dla pojedynczego użytkownika przeprowadzono w warunkach gdzie 
     \label{fig:single_user_increasing}
 \end{figure}
 
-\begin{figure}
+\begin{figure}[h]
     \centering
     \includegraphics[width=\textwidth]{Images/single_user_decreasing.png}
     \caption{Spadek amplitudy sygnału dla pojedynczego użytkownika}
@@ -215,6 +217,69 @@ Ocenę algorytmu dla pojedynczego użytkownika przeprowadzono w warunkach gdzie 
 \subsection{Działanie algorytmu dla wielu użytkowników}
 
 W przypadku wielu użytkowników nie jest tak łatwo zaprezentować działanie algorytmu za pomocą wykresu wyjściowego. W celu oceny działania algorytmu konieczne będzie obejrzenie zależności wewnętrzych pomiędzy sygnałami $\Phi$, $\Phi_{\mathrm(LT_SLD)}$, $G'$, $\widehat{G}$. Co więcej zachęca się czytelnika pracy do zapoznania się z próbkami znajdującymi się na stronie...
+
+\noindent Scenariusz testu jest następujący. Natężenie dźwięku pochodzącego od pierwszych dwóch mówców(mężczyźni) jest podobne podczas gdy natężenie trzeciej osoby(kobieta) jest celowo stłumione 2 razy. Celem jest wygenerowanie dzwięku, w którym kobieta będzie dobrze słyszalne. SNR w tym teście wynosi 20dB aby słabe źródło nie znalazło się zupełnie pod szumem.
+
+\noindent Na wykresach \ref{fig:multi_user}-\ref{fig:multi_user_params_in_angle} przedstawiono wyniki. Przebieg czasowy jest o tyle interesujący, że wyraźnie po momentach ciszy i na początku następuje podbicie sygnału. Dzieje się tak, ponieważ algorytm ustawia dużą głośność dla cichych źródeł i gdy zwiększają one swoją głośność stopiowo ją podnosi. Skutkuje to pewnym czasem ustalania się docelowej wartości.
+
+\noindent Na wykresie \ref{fig:multi_user_params_in_time} widoczne jest, że funkcja głośności ma dla źródła głośniejszego wartość mniejszą niż dla cichszego co jest celem działania algorytmu.
+
+\noindent Wykres \ref{fig:multi_user_params_in_angle} świetnie przedstawia ideę zastosowania okien w dziedzinie kątów. Skutkuje to powstaniem charakterystycznych "górek". Mały błąd estymacji nie spowoduje drastycznej zmiany w systemie. Warto też zauważyć górki występujące poza kierunkami nadchodzenia fali. Biorą się one z grubszych błędów estymacji.
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=\textwidth]{Images/multi_user.png}
+    \caption{Przebieg czasowy dla trzech mówców}
+    \label{fig:multi_user}
+\end{figure}
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=\textwidth]{Images/multi_user_params_in_time.png}
+    \caption{Przebieg czasowy wybranych parametrów dla trzech mówców dla kierunków nadchodzenia fali}
+    \label{fig:multi_user_params_in_time}
+\end{figure}
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=\textwidth]{Images/multi_user_params_in_angle.png}
+    \caption{Wybrane parametry jako funkcja kąta w pojedynczej ramce}
+    \label{fig:multi_user_params_in_angle}
+\end{figure}
+
+\noindent Te same trzy wykresy przedstawiono w wariancie bez estymacji DOA(\ref{fig:multi_user_no_doa}-\ref{fig:multi_user_no_doa_params_in_angle}). Oznacza to, że do algorytmu na twardo podawane są prawdziwie kierunki nadchodzenia fali. Widocznym jest, że zanikają "górki" dla kierunków poza DOA.
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=\textwidth]{Images/multi_user_no_doa.png}
+    \caption{Przebieg czasowy dla trzech mówców bez estymacji DOA}
+    \label{fig:multi_user_no_doa}
+\end{figure}
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=\textwidth]{Images/multi_user_params_in_time.png}
+    \caption{Przebieg czasowy wybranych parametrów dla trzech mówców dla kierunków nadchodzenia fali bez estymacji doa}
+    \label{fig:multi_user_no_doa_params_in_time}
+\end{figure}
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=\textwidth]{Images/multi_user_params_in_angle.png}
+    \caption{Wybrane parametry jako funkcja kąta w pojedynczej ramce dla przypadku bez estymacji doa}
+    \label{fig:multi_user_no_doa_params_in_angle}
+\end{figure}
+
+\subsection{Działanie algorytmu w przypadku ruchu mówcy}
+
+Ten test ma za zadanie sprawdzić czy system AGC będzie działał gdy mówca zacznie się poruszać z niewielką prędkością kątową. W trakcie 6 sekund trwania sygnału mówca przemieści się z $78^{\circ} na 99^{\circ}$.
+
+
+\subsection{Odporność systemu na pogłos}
+
+Ostatnim testowanym wariantem jest umieszczenie wszystkich trzech mówców w pokoju w celu ewualuacji działania algorytmu w modelu, w którym występuje pogłos. Otrzymane wyniki porównane zostały z wynikami z wynikami eksperymentów bez pogłosu.
+
+
 
 
 
