@@ -1,2 +1,8 @@
 \chapter{Podsumowanie}
 \label{chapter-6}
+
+Celem pracy inżynierskiej było napisanie algorytmu autmoatycznej kontroli głośności dla macierzy mikrofonowej z jednoczesnym tlumieniem tła akustycznego. Temat udało się zrealizować. Sposób działania algorytmu został zaczerpnięty z literatury, w dużej mierze z \cite{Braun2014}, \cite{Thiergart2013} i  \cite{Schmidt1986}. System napisano w języku python. Otrzymany algorytm przetwarza nagrania z macierzy mikrofonowej. Działanie algorytmu spełnia postawione założenia -steruje głośnością i tłumi zakłócenie jakim jest biały szum. Zdecydowano się zrealizować żądany system za pomocą filtru LCMV i algorytmu MUSIC.
+
+Algorytm poddano licznym testom. Przetestowano wpływ czynników takich jak poziom szumu, ilość mówców, zmiennośc położenia mówców czy geometrię pokoju i mikrofonu na działanie zrealizowanego rozwiązania. Dokonano analizy otrzymanych wyników i wyciągnięto wnioski, które zostały opisane w rodziale \ref{chapter-5}. 
+
+W planach autora pracy jest pogłębianie wiedzy na temat AGC i ulepszanie systemu. Plany te zakładają ulepszenie algorytmu estymacji DOA tak aby kierunki nadchodzenia fali były wykrywane dla sygnału składającego się ze źródeł położonych bliżej i dla mniejszej wartości stosunku sygnału do szumu. W planach jest także próba szybszej implementacji sprzętowej i uruchomienie algorytmu w czasie rzeczywistym.

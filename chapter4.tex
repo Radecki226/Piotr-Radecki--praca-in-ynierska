@@ -23,13 +23,13 @@ W założeniach oprogramowanie miał mieć charakter obiektowy. Główne bloki z
 
 \begin{figure}[h!]
     \centering
-    \includegraphics[width=\textwidth]{Images/uml.png}
+    \includegraphics[width=\textwidth]{Images/uml_pl.png}
     \caption{Diagram Klas}
     \label{fig:classes}
 \end{figure}
 
 
-\noindent W diagramie \ref{fig:classes} nie zawarto metod klas, ponieważ schemat behawioralny został już przedstawiony w \ref{fig:block_diagram}.
+\noindent W diagramie \ref{fig:classes} skrótowo opisano klasy. Nazwy nie odpowiadają( poza DelayGenerator) nazwom w kodzie. Nie są również dodane wszystkie składowe i metody. Schemat ma za zadanie przedstawić koncepcyjnie zaimplementowane rozwiązanie i pokazać podejście autora pracy do implementacji systemu.
 
 
 \newpage
@@ -48,28 +48,27 @@ Generator pełni ważną rolę w projekcie inżynierskim. Z tego powodu postanaw
     \item Opcjonalnie informacje o geometrii pokoju i o tym czy symulacja pogłosu jest włączona
 \end{itemize}
 
-Schemat działania generatora jest względnie prosty. Przyjmuje się model przedstawiony w \ref{chapter-2}. Zakłada się, że sygnał wejściowy odpowiada wartości sygnału w punkcie $\bm{\mathrm{d}}_{0}$. Posiłkując się równaniami \ref{equation:2.4} i \ref{equation:2.5} można zapisać, że:
+\noindent Schemat działania generatora jest względnie prosty. Przyjmuje się model przedstawiony w \ref{chapter-2}. Zakłada się, że sygnał wejściowy odpowiada wartości sygnału w punkcie $\bm{\mathrm{d}}_{0}$. Posiłkując się równaniami \ref{equation:2.4} i \ref{equation:2.5} można zapisać, że:
 
 \begin{equation}
     \label{equation:delay model}
-    f_{l}(\bm{\mathrm{d}}_{m},t) = 
-    f_{l}(\bm{\mathrm{d}}_{0},t-\tau)
+    x_{l}(\bm{\mathrm{d}}_{m},t) = 
+    x_{l}(\bm{\mathrm{d}}_{0},t-\tau)
 \end{equation}
 
-\noindent Gdzie $f_{l}(\bm{\mathrm{d}}_{m},t)$ to wymuszenie $l$-tej fali dzwiękowej w punkcie $\bm{\mathrm{d}}_{m}$. W takim układzie możliwe są bieżące zmiany opóźnienia bazując na pozycji źródła. Dodatkowo możliwa jest generacja białego szumu. Biały szum o mocy $\sigma$ może być przedstawiony jako zmienna losowa z rozkładu:
+\noindent Gdzie $x_{l}(\bm{\mathrm{d}}_{m},t)$ to wymuszenie $l$-tej fali dzwiękowej w punkcie $\bm{\mathrm{d}}_{m}$. W takim układzie możliwe są bieżące zmiany opóźnienia bazując na pozycji źródła. Dodatkowo możliwa jest generacja białego szumu. Biały szum o mocy $\sigma$ może być przedstawiony jako zmienna losowa z rozkładu gaussowskiego o średniej 0 i wariancji $\sigma$.
 
-
-Generator umożliwia symulację pomieszczenia, w  którym znajduje się mikrofon. Za pomocą paczki rir generator \cite{rir} generowana jest odpowiedź impulsowa pokoju $h(t)$. Tak generowana odpowiedź nazywana będzie później pogłosem. Szczegóły dotyczące genezy takiego sposoby symulacji pomieszczenia mogą być znalezione w książce \cite{Kuttruff}. Ostatecznie zatem sygnał wejściowy na $m$-tym mikrofonie może być zapisany w dziedzinie czasu jako:
+\noindent Generator umożliwia symulację pomieszczenia, w  którym znajduje się mikrofon. Za pomocą paczki rir generator \cite{rir} generowana jest odpowiedź impulsowa pokoju $\bm{\mathrm{h}}(t)$. Tak generowana odpowiedź nazywana będzie później pogłosem. Szczegóły dotyczące genezy takiego sposoby symulacji pomieszczenia mogą być znalezione w książce \cite{Kuttruff}. Ostatecznie zatem sygnał wejściowy na $m$-tym mikrofonie może być zapisany w dziedzinie czasu jako:
 
 \begin{equation}
     \label{equation:full generator}
-    s(\bm{\mathrm{d}}_{m},t)=
+    x(t,\bm{\mathrm{d}}_{m})=
     \sum_{l=1}^{L}
-    f_{l}(\bm{\mathrm{d}}_{0},t-\tau_{l,m})*
+    x_{l}(\bm{\mathrm{d}}_{0},t-\tau_{l,m})*
     h_{l}(t)+ n(t)
 \end{equation}
 
-Z uwagi na to, że w celu generacji filtra pogłosowego konieczne są konkretne pozycje źródeł i mikrofonu, włączenie symulacji pomieszczenia nie pozwala na zmiany pozycji źródeł w czasie symulacji.
+\noindent Z uwagi na to, że w celu generacji filtra pogłosowego konieczne są konkretne pozycje źródeł i mikrofonu, włączenie symulacji pomieszczenia nie pozwala na zmiany pozycji źródeł w czasie symulacji.
 
 
 
@@ -90,7 +89,7 @@ Algorytm przetwarza nagrane pliki dzwiękowe. Składa się z następujących kro
     
     \State Na wyjściu przetwarzania sygnałów zwracany jest sygnał $Y(k,n)$ jako STFT
     
-    \State Dane wyjściowe są przetwarzane za pomocą odwrotnego STFT(ISTFT) do postaci czasowej.
+    \State Dane wyjściowe są przetwarzane za pomocą odwrotnej krótkoczasowej transformaty fouriera (ISTFT) do postaci czasowej.
     
   \end{algorithmic}
 \end{algorithm}
