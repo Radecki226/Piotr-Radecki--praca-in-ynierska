@@ -5,7 +5,7 @@ Dla celów testów przyjęto pewne sztywne założenia. Jako prędkość dzwięk
 
 \noindent Podawane sygnały dzwiękowe są znormalizowane w ten sposób, że moduł z ich maksymalnej wartości wynosi 1. Przekłada się to na moce średnie z zakresu 0.1-0.2. Zdecydowano zatem, że parametr $\Psi_{0} = 0.001$. 
 
-\noindent W eksperymentach, w których włączony jest pogłos symulowany jest pokój o wymiarach 7m x 5m x 3m. Macierz umieszczona jest w punkcie $[2,2,1.6]$ a mówcy znajdują się w odległości 1.5m od niej. Ilustracja znajduje się na rysunku \ref{fig:room}.
+\noindent W eksperymentach, w których włączony jest pogłos symulowany jest pokój o wymiarach 7m x 5m x 3m. Parametr czas pogłosu ustawiony jest na 0.4 co odpowiada dosyć silnemu zapogłosowieniu. Macierz umieszczona jest w punkcie $[2,2,1.6]$ a mówcy znajdują się w odległości 1.5m od niej. Ilustracja znajduje się na rysunku \ref{fig:room}.
 
 \begin{figure}[h!]
     \centering
@@ -76,7 +76,7 @@ Poniżej przedstawiono wykresy charakterystyki kierunkowej dla filtra LCMV o nas
     \item Jeden mówca usytuowany na kącie $\theta_{0} = 78^{\circ}$
     \item Trzech mówców usytuowanych na kątach $\theta_{0} = 78^{\circ}, \, \theta_{1} = 192^{\circ}, \, \theta_{2} = 301^{\circ}$
 \end{itemize}
-\noindent Wszystkie powyższe scenariusze będą powtórzone dla następjących konfiguracji odległości między mikrofonami, wartości stosunku sygnału do szumu i obecności pogłosu:
+\noindent Wszystkie powyższe scenariusze będą powtórzone dla następjących konfiguracji wartości stosunku sygnału do szumu i obecności pogłosu:
 
 \begin{itemize}
     \item $\mathrm{SNR}=10\mathrm{dB}$ 
@@ -128,7 +128,7 @@ Poniżej przedstawiono wykresy charakterystyki kierunkowej dla filtra LCMV o nas
     \label{fig:music_10db_20cm_reverb}
 \end{figure}
 
-\noindent Wyniki dotyczące wpływu szumu nie zaskakują- algorytm działa mniej dokładnie dla niskiego SNR. To samo dotyczy pogłosu, użyty algorytm nie jest odporny na tego typu zakłócenia. Pojawiające się odbite fale wewnątrz pokoju czynią maksima mniej wybitnymi. Najbardziej interesująca obserwacja zdaniem autora pracy to wpływ odległości między mikrofonami. Większa odległość powoduje większą kierunkowość co przekłada się na dokładniejszą estymację. Dla rozłożenia $\Delta \d = 20cm$ i szumie $\mathrm{SNR}=-10\mathrm{dB}$ udaje się dokładnie wyestomować wszystkie trzy kierunki. Dla tego samego stosunku sygnału do szumu i $\Delta d = 2cm$ algorytm estymuje tylko dwa kierunki i to bardzo niedokładnie. Do dalszych testów wybrano jednak system ze stosunkiem sygnału do szumu na poziomie 10-20dB a mówcy są dość daleko od siebie.Zbytnia kierunkowość powoduje duże problemy z zastosowaniem filtra LCMV i nawet bardzo dokładna estymacja nie rekompensuje tych strat. .Doświadczenia empiryczne pokazały, że cały system działa lepiej dla $\Delta d = 2cm$.
+\noindent Wyniki dotyczące wpływu szumu nie zaskakują- algorytm działa mniej dokładnie dla niskiego SNR. To samo dotyczy pogłosu, użyty algorytm nie jest odporny na tego typu zakłócenia. Pojawiające się odbite fale wewnątrz pokoju czynią maksima mniej wybitnymi. Najbardziej interesująca obserwacja zdaniem autora pracy to wpływ odległości między mikrofonami. Większa odległość powoduje większą kierunkowość co przekłada się na dokładniejszą estymację. Dla rozłożenia $\Delta \d = 20cm$ i szumie $\mathrm{SNR}=-10\mathrm{dB}$ udaje się dokładnie wyestomować wszystkie trzy kierunki. Dla tego samego stosunku sygnału do szumu i $\Delta d = 2cm$ algorytm estymuje tylko dwa kierunki i to bardzo niedokładnie. Do dalszych testów wybrano jednak system ze stosunkiem sygnału do szumu na poziomie 10-20dB a mówcy są dość daleko od siebie. Zbytnia kierunkowość powoduje duże problemy z zastosowaniem filtra LCMV i nawet bardzo dokładna estymacja nie rekompensuje tych strat. Doświadczenia empiryczne pokazały, że cały system działa lepiej dla $\Delta d = 2cm$.
 
 \newpage
 
@@ -154,7 +154,7 @@ Obliczenie SNR dla systemu jest obliczane zarówno dla systemu z pojedynczym uż
     \Delta \mathrm{SNR} = \mathrm{SNR}_{\mathrm{output}} - \mathrm{SNR}_{\mathrm{input}}
 \end{equation}
 
-\noindent Gdzie SNR na wejściu $\mathrm{SNR}_{\mathrm{input}}$ jest znane a mając do dyspozycji niezaszumiony sygnał referencyjny $x_{\mathrm{ref}}(n)$ i sygnał zaszumiony $x_{\mathrm{noisy}}(n)$ można także obliczyć stosunek sygnału do szumu dla $N$ próbek sygnału jako:
+\noindent Gdzie SNR na wejściu $\mathrm{SNR}_{\mathrm{input}}$ jest znane a mając do dyspozycji niezaszumiony sygnał referencyjny $x_{\mathrm{ref}}(n)$ i sygnał zaszumiony $x_{\mathrm{noisy}}(n)$ można także obliczyć stosunek sygnału do szumu dla $N$ próbek wyjściowych sygnału jako:
 
 \begin{equation}
     \label{SNR}
@@ -167,8 +167,8 @@ Obliczenie SNR dla systemu jest obliczane zarówno dla systemu z pojedynczym uż
 
 \noindent Uzyskano następujące wyniki:
 \begin{itemize}
-    \item Pojedynczy użytkownik: $\mathrm{SNR} \approx 12dB$ 
-    \item Trzech użytkowników: $\mathrm{SNR} \approx 6dB$
+    \item Pojedynczy użytkownik: $\Delta \mathrm{SNR} \approx 12dB$ 
+    \item Trzech użytkowników: $\Delta \mathrm{SNR} \approx 6dB$
 \end{itemize}
 
 \noindent Wykresy przedstawiające sygnały przed i po odszumaniu przedstawiono na \ref{fig:snr_boost}
@@ -209,11 +209,11 @@ Ocenę algorytmu dla pojedynczego użytkownika przeprowadzono w warunkach gdzie 
 
 \subsection{Działanie algorytmu dla wielu użytkowników}
 
-W przypadku wielu użytkowników nie jest tak łatwo zaprezentować działanie algorytmu za pomocą wykresu wyjściowego. W celu oceny działania algorytmu konieczne będzie obejrzenie zależności wewnętrzych pomiędzy sygnałami $\Phi_{\mathrm{LT}}$, $G'$, $\widehat{G}$. Zmiany parametrów zostaną pokazane zarówno w funkcji czasu jak i w funkcji kąta w pojedynczej ramce. Dla przejrzystości we wszystkich testowanych przypadkach będzie to ta sama ramka. Co więcej zachęca się czytelnika pracy do zapoznania się z próbkami znajdującymi się na stronie... i płycie CD.
+W przypadku wielu użytkowników nie jest tak łatwo zaprezentować działanie algorytmu za pomocą wykresu wyjściowego. W celu oceny działania algorytmu konieczne będzie obejrzenie zależności wewnętrzych pomiędzy sygnałami $\Phi_{\mathrm{LT}}$, $G'$, $\widehat{G}$. Zmiany parametrów zostaną pokazane zarówno w funkcji czasu jak i w funkcji kąta w pojedynczej ramce. Dla przejrzystości we wszystkich testowanych przypadkach będzie to ta sama ramka.
 
 \noindent Scenariusz testu jest następujący. Natężenie dźwięku pochodzącego od pierwszych dwóch mówców(mężczyźni) jest podobne podczas gdy natężenie trzeciej osoby(kobieta) jest celowo podbite 2 razy. Celem jest wygenerowanie dzwięku, w którym poziom głośności mówców zostanie wyrównany. SNR w tym teście wynosi 20dB aby słabe źródła nie znalazły się zupełnie pod szumem.
 
-\noindent Na wykresach \ref{fig:multi_user}-\ref{fig:multi_user_params_in_angle} przedstawiono wyniki. Przebieg czasowy jest o tyle interesujący, że wyraźnie po momentach ciszy i na początku następuje podbicie sygnału. Dzieje się tak, ponieważ algorytm ustawia dużą głośność dla cichych źródeł i gdy zwiększają one swoją głośność stopiowo ją podnosi. Skutkuje to pewnym czasem ustalania się docelowej wartości.
+\noindent Na wykresach \ref{fig:multi_user}-\ref{fig:multi_user_params_in_angle} przedstawiono wyniki. Przebieg czasowy jest o tyle interesujący, że wyraźnie po momentach ciszy i na początku następuje podbicie sygnału. Dzieje się tak, ponieważ algorytm ustawia dużą głośność dla cichych źródeł i gdy zwiększają one swoją głośność stopiowo ją dostosowuje. Skutkuje to pewnym czasem ustalania się docelowej wartości.
 
 \noindent Na wykresie \ref{fig:multi_user_params_in_time} widoczne jest, że funkcja głośności ma dla źródła głośniejszego wartość mniejszą niż dla cichszego co jest celem działania algorytmu.
 
@@ -289,9 +289,7 @@ Na wykresach \ref{fig:moving}-\ref{fig:moving_params_in_angle} pokazano to samo 
     \label{fig:moving_params_in_angle}
 \end{figure}
 
-Zauważalną różnicą w stosunku do przypadku, w którym wszyscy użytkownicy byli statyczni jest różnica w położeniu pierwszej "górki" funkcji $G'$. Jest ona po prostu przesunięta. Stało się tak, ponieważ użytkownik zmienił już swoją pozycję w momencie obserwacji. Ruch nie powoduje pogorszenia się działania algorytmu. Ponownie zachęca się do odsłuchania próbek audio w celu porównania z poprzednimi eksperymentami.
-
-
+Zauważalną różnicą w stosunku do przypadku, w którym wszyscy użytkownicy byli statyczni jest różnica w położeniu pierwszej "górki" funkcji $G'$. Jest ona po prostu przesunięta. Stało się tak, ponieważ użytkownik zmienił już swoją pozycję w momencie obserwacji. Ruch nie powoduje pogorszenia się działania algorytmu.
 
 \subsection{Odporność systemu na pogłos}
 
@@ -318,7 +316,7 @@ Ostatnim testowanym wariantem jest umieszczenie wszystkich trzech mówców w pok
     \label{fig:reverb_params_in_angle}
 \end{figure}
 
-\noindent Na wykresie \ref{fig:reverb} obserwowany jest brak działania systemu AGC. Jak widać na wykresach następuje na tyle duży błąd estymacji kierunku nadchodzenia fali, że maksima funkcji $\widehat{G}$ są oddalone od kierunków nadchodzenia fali. Z tego powodu do równania \ref{equation:constraint} brane są błędne kierunki. Oznacza to, że silny pogłos uniemożliwia praktyczne stosowanie algorytmu MUSIC do opisanego w tej pracy systemu.
+\noindent Na wykresie \ref{fig:reverb} obserwowany jest brak działania systemu AGC. Jak widać na wykresach następuje na tyle duży błąd estymacji kierunku nadchodzenia fali, że maksima funkcji $\widehat{G}$ są oddalone od kierunków nadchodzenia fali. Z tego powodu do równania \eqref{equation:constraint} brane są błędne kierunki. Oznacza to, że silny pogłos uniemożliwia praktyczne stosowanie algorytmu MUSIC do opisanego w tej pracy systemu.
 
 
 

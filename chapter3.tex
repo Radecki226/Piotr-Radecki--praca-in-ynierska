@@ -35,7 +35,7 @@ W praktyce jest obliczana jako średnia z $N$ zebranych próbek:
     \dfrac{1}{N} \sum_{i = n-N}^{n-1}
     \bm{\mathrm{x}}(k,i) \bm{\mathrm{x}}^{H}(k,i)
 \end{equation}
-Zgodnie z \cite{Thiergart2013}, zakładając, że wszystkie elementy równania \ref{equation:2.2} są nieskorelowane, można zapisać:
+Zgodnie z \cite{Thiergart2013}, zakładając, że wszystkie elementy równania \eqref{equation:2.2} są nieskorelowane, można zapisać:
 
 \begin{equation}
     \label{equation:PSD signal noise}
@@ -83,7 +83,7 @@ Punktem wyjściowym dla definicji filtru LCMV jest próba zapisania estymaty syg
     G(\theta_{l},n),
     \, \, l \in \{1,2,...,L\}
 \end{equation}
-Ten zapis oznacza, że żądany filtr powinien minimalizować podawane na wejście zakłócenia \ref{equation:argmin} i odpowiednio sterować głośnościami poszczególnych nadchodzących fal \ref{equation:constraint}. Rozwiązanie tak postawionego problemu można znaleźć w \cite{Thiergart2013} zaś wyprowadzenie w \cite{Frost1972}:
+Ten zapis oznacza, że żądany filtr powinien minimalizować podawane na wejście zakłócenia \eqref{equation:argmin} i odpowiednio sterować głośnościami poszczególnych nadchodzących fal \eqref{equation:constraint}. Rozwiązanie tak postawionego problemu można znaleźć w \cite{Thiergart2013} zaś wyprowadzenie w \cite{Frost1972}:
 
 \begin{equation}
     \label{equation:lcmv formula}
@@ -98,7 +98,7 @@ Ten zapis oznacza, że żądany filtr powinien minimalizować podawane na wejśc
 
 \section{Algorytm MUSIC}
 
-MUSIC(ang. Multiple Emitter Location and Signal Parameter Estimation) został opisane w \cite{Schmidt1986}. Nowocześniejsze opracowania można też znaleźć w \cite{DOA} i \cite{Benesty2008}. Algorytm pozwala wyestymować kierunki nadchodzenia fali w systemie zawierającym wiele źródeł. Algorytm zakłada przyjęty model sygnału z założeniem, że tło akustyczne to wyłącznie biały szum. Obecność innych zakłóceń pogarsza działanie systemu.
+MUSIC(ang. Multiple Emitter Location and Signal Parameter Estimation) został opisany w \cite{Schmidt1986}. Nowocześniejsze opracowania można też znaleźć w \cite{DOA} i \cite{Benesty2008}. Algorytm pozwala wyestymować kierunki nadchodzenia fali w systemie zawierającym wiele źródeł. Algorytm zakłada przyjęty model sygnału z założeniem, że tło akustyczne to wyłącznie biały szum. Obecność innych zakłóceń pogarsza działanie systemu.
 
 \noindent Na potrzeby tej pracy zostanie przedstawiony skrótowo algorytm. Wyprowadzenie znajduje się w wyżej cytowanej publikacji. 
 Definiuje się zapis $\bm{\mathrm{a}}(k,n,\theta)$, oznaczający wektor sterującym dla kąta padania $\theta$ i indeksu czasowo-częstotliwościowego $(k,n)$ oraz $\bm{\mathrm{\Phi}}(k,n)$ oznaczający macierz PSD sygnału dla tego samego indeksu czasowo-częstotliwościowego.
@@ -202,7 +202,7 @@ Gdzie $\Psi_{0}$ jest pewną ustaloną granicą.
 
 \newpage
 
-\noindent Następnie  dany jest algorytm do obliczenia wygładzonej przestrzennej funkcji głośności $G'(\theta,n)$:
+\noindent Następnie  dany jest algorytm do obliczenia przestrzennej funkcji głośności $G'(\theta,n)$:
 
 
 \begin{algorithm}
@@ -211,7 +211,7 @@ Gdzie $\Psi_{0}$ jest pewną ustaloną granicą.
   \begin{algorithmic}[1]
     \State Zainicjalizuj $G'(\theta,n)$ wartością 1 dla każdego kierunku
     
-    \State  Znajdź maksimum globalne funkcji $\Psi_{LT}$ w dziedzinie kąta($\theta_{\max}$) i oblicz przestrzenną funkcją głośności $G(\theta_{max},n)$ za pomocą \ref{equation:sqrt}.
+    \State  Znajdź maksimum globalne funkcji $\Psi_{LT}$ w dziedzinie kąta($\theta_{\max}$) i oblicz przestrzenną funkcją głośności $G(\theta_{max},n)$ za pomocą \eqref{equation:sqrt}.
     
     \State Wygeneruj okno przestrzenne o określonej szerokości $\Theta$, które ma wzmocnienie $1$ na brzegach i $G(\theta_{max},n)$ w środku.
     
@@ -231,7 +231,7 @@ Gdzie $\Psi_{0}$ jest pewną ustaloną granicą.
 \end{equation}
 
 
-\noindent Funkcja tej operacji jest taka sama jak \ref{equation:LT_SLD}. Otrzymane $\widehat{G}$ wstawia się do równania \ref{equation:constraint}.
+\noindent Funkcja tej operacji jest taka sama jak \eqref{equation:LT_SLD}. Otrzymane $\widehat{G}$ wstawia się do równania \eqref{equation:constraint}.
 
 
 

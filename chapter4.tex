@@ -16,7 +16,7 @@
 
 \section{Metologia rozwoju programu}
 
-\noindent Realizacja pracy była podzielona na stworzenie właściwego programu opisane szczegółowo w \ref{chapter-3} i na stworzenie generatora symulującego rzeczywisty sygnał mikrofonowy z dodatkiem zakłóceń.
+\noindent Realizacja pracy była podzielona na stworzenie właściwego programu opisane szczegółowo w rodziale \ref{chapter-3} i na stworzenie generatora symulującego rzeczywisty sygnał mikrofonowy z dodatkiem zakłóceń.
 
 
 W założeniach oprogramowanie miał mieć charakter obiektowy. Główne bloki zostały zaimplementowane jako klasy, które komunikują się między sobą za pomocą interfejsów. Takie rozwiązanie powoduje usystematyzowaną strukturę projektu i umożliwia łatwy rozwój oprogramowania w przyszłości. Przykładem jest implementacja algorytmu MUSIC. Klasa MUSIC dziedziczy po klasie abstrakcyjnej DOA. W ten sposób proste w przyszłości będzie dopisanie w programie innego algorytmu estymacji kierunku nadchodzenia fali jako innej klasy dziedziczącej po DOA. Poniżej przedstawiono diagram klas w konwencji UML \cite{uml}:
@@ -48,7 +48,7 @@ Generator pełni ważną rolę w projekcie inżynierskim. Z tego powodu postanaw
     \item Opcjonalnie informacje o geometrii pokoju i o tym czy symulacja pogłosu jest włączona
 \end{itemize}
 
-\noindent Schemat działania generatora jest względnie prosty. Przyjmuje się model przedstawiony w \ref{chapter-2}. Zakłada się, że sygnał wejściowy odpowiada wartości sygnału w punkcie $\bm{\mathrm{d}}_{0}$. Posiłkując się równaniami \ref{equation:2.4} i \ref{equation:2.5} można zapisać, że:
+\noindent Schemat działania generatora jest względnie prosty. Przyjmuje się model przedstawiony w \ref rozdziale {chapter-2}. Zakłada się, że sygnał wejściowy odpowiada wartości sygnału w punkcie $\bm{\mathrm{d}}_{0}$. Posiłkując się równaniami \eqref{equation:2.4} i \eqref{equation:2.5} można zapisać, że:
 
 \begin{equation}
     \label{equation:delay model}
@@ -56,7 +56,7 @@ Generator pełni ważną rolę w projekcie inżynierskim. Z tego powodu postanaw
     x_{l}(\bm{\mathrm{d}}_{0},t-\tau)
 \end{equation}
 
-\noindent Gdzie $x_{l}(\bm{\mathrm{d}}_{m},t)$ to wymuszenie $l$-tej fali dzwiękowej w punkcie $\bm{\mathrm{d}}_{m}$. W takim układzie możliwe są bieżące zmiany opóźnienia bazując na pozycji źródła. Dodatkowo możliwa jest generacja białego szumu. Biały szum o mocy $\sigma$ może być przedstawiony jako zmienna losowa z rozkładu gaussowskiego o średniej 0 i wariancji $\sigma$.
+\noindent Gdzie $x_{l}(\bm{\mathrm{d}}_{m},t)$ to wymuszenie $l$-tej fali dzwiękowej w punkcie $\bm{\mathrm{d}}_{m}$. W takim układzie możliwe są bieżące zmiany opóźnienia bazując na pozycji źródła. Dodatkowo możliwa jest generacja białego szumu $n(t)$. Biały szum o mocy $\sigma$ może być przedstawiony jako zmienna losowa z rozkładu gaussowskiego o średniej 0 i wariancji $\sigma$.
 
 \noindent Generator umożliwia symulację pomieszczenia, w  którym znajduje się mikrofon. Za pomocą paczki rir generator \cite{rir} generowana jest odpowiedź impulsowa pokoju $\bm{\mathrm{h}}(t)$. Tak generowana odpowiedź nazywana będzie później pogłosem. Szczegóły dotyczące genezy takiego sposoby symulacji pomieszczenia mogą być znalezione w książce \cite{Kuttruff}. Ostatecznie zatem sygnał wejściowy na $m$-tym mikrofonie może być zapisany w dziedzinie czasu jako:
 
