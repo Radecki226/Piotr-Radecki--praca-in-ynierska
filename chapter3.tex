@@ -45,57 +45,6 @@ Zgodnie z \cite{Thiergart2013}, zakładając, że wszystkie elementy równania \
 \end{equation}
 Gdzie odpowiednio $\bm{\mathrm{\Phi}}_{l}(k,n)$ i $\bm{\mathrm{\Phi}}_{\mathrm{n}}(k,n)$ są macierzami PSD odpowiednio $l$-tej padającej fali i zakłóceń.
 
-\section{Przestrzenna funkcja głośności}
-
-Ważnym elementem systemu będzie sterowanie tak zwaną przestrzenną funkcją głośnośni $G(\theta_{l},n)$. Funkcja ta jest odpowiedzialna za utrzymywanie głośności sygnału wyjściowego na założonym poziomie:
-
-\begin{equation}
-    \label{equation:G}
-    \mathrm{Y}(k,n)= 
-    \sum_{l=1}^{L} G(\theta_{l},n)
-    \mathrm{X}_{l}(k,n,\bm{\mathrm{d}}_0)
-\end{equation}
-
-\section{Filtr LCMV}
-
-Punktem wyjściowym dla definicji filtru LCMV jest próba zapisania estymaty sygnału wyjściowego $\hat{\mathrm{Y}}(k,n)$ jako:
-\begin{equation}
-    \label{equation:Y estimation}
-    \hat{\mathrm{Y}}(k,n)=
-    \bm{\mathrm{w}}^{\mathrm{H}}(k,n)
-    \bm{\mathrm{x}}(k,n)
-\end{equation}
-
-\noindent Aby znaleźć współncyznniki filtru $\bm{\mathrm{w}}_{\mathrm{n}}(k,n)$, które pozwolą jak najlepiej przybliżyć żądane rozwiązanie należy rozwiązać problem optymalizacyjny zdefiniowany przez dwa poniższe równania:
-\begin{equation}
-    \label{equation:argmin}
-    \bm{\mathrm{w}}_{\mathrm{n}}(k,n) = 
-    \underset{\bm{\mathrm{w}}}{\mathrm{arg \, min}} \,
-    \bm{\mathrm{w}}^{\mathrm{H}}
-    \bm{\mathrm{\Phi}}_{n}
-    \bm{\mathrm{w}}
-\end{equation}
-
-\begin{equation}
-    \label{equation:constraint}
-    \bm{\mathrm{w}}^{\mathrm{H}}
-    \bm{\mathrm{a}}_{l}(k,n)=
-    G(\theta_{l},n),
-    \, \, l \in \{1,2,...,L\}
-\end{equation}
-Ten zapis oznacza, że żądany filtr powinien minimalizować podawane na wejście zakłócenia \eqref{equation:argmin} i odpowiednio sterować głośnościami poszczególnych nadchodzących fal \eqref{equation:constraint}. Rozwiązanie tak postawionego problemu można znaleźć w \cite{Thiergart2013} zaś wyprowadzenie w \cite{Frost1972}:
-
-\begin{equation}
-    \label{equation:lcmv formula}
-    \bm{\mathrm{w}}_{\mathrm{n}}=
-    \bm{\mathrm{\Phi}}_{n}^{-1}\bm{\mathrm{A}}
-    [\bm{\mathrm{A}}^{\mathrm{H}} \bm{\mathrm{\Phi}}_{n} \bm{\mathrm{A}}]^{-1}
-    \bm{\mathrm{g}}
-\end{equation}
-
-\noindent Gdzie macierz $\bm{\mathrm{A}}(k,n)=
-[\bm{\mathrm{a}}_{1}...\bm{\mathrm{a}}_{L}]$ zaś wektor $\bm{\mathrm{g}}(n)=[G(\theta_{1},n)...G(\theta_{L},n)]^{T}$.
-
 \section{Algorytm MUSIC}
 
 MUSIC(ang. Multiple Emitter Location and Signal Parameter Estimation) został opisany w \cite{Schmidt1986}. Nowocześniejsze opracowania można też znaleźć w \cite{DOA} i \cite{Benesty2008}. Algorytm pozwala wyestymować kierunki nadchodzenia fali w systemie zawierającym wiele źródeł. Algorytm zakłada przyjęty model sygnału z założeniem, że tło akustyczne to wyłącznie biały szum. Obecność innych zakłóceń pogarsza działanie systemu.
@@ -137,10 +86,58 @@ $L$ największych maksimów lokalnych takiej funkcji w dziedzinie kątów uznaje
 
 \noindent Ponownie, $L$ największych maksimów lokalnych wskazuje kierunki nadchodzenia fali.
 
-\newpage
-\section{Automatyczna regulacja głośności}
 
-Autor publikacji \cite{Braun2014} proponuje zdefiniowanie funkcji przestrzennego rozkładu głośności(ang. SLD) zapisanego jako:
+\section{Automatyczna kontrola głośności}
+
+Ważnym elementem systemu będzie sterowanie tak zwaną przestrzenną funkcją głośnośni $G(\theta_{l},n)$. Funkcja ta jest odpowiedzialna za utrzymywanie głośności sygnału wyjściowego na założonym poziomie:
+
+\begin{equation}
+    \label{equation:G}
+    \mathrm{Y}(k,n)= 
+    \sum_{l=1}^{L} G(\theta_{l},n)
+    \mathrm{X}_{l}(k,n,\bm{\mathrm{d}}_0)
+\end{equation}
+
+\noindent Następnym istotnym pojęciem jest filtr LCMV. Punktem wyjściowym dla definicji filtru LCMV jest próba zapisania estymaty sygnału wyjściowego $\hat{\mathrm{Y}}(k,n)$ jako:
+\begin{equation}
+    \label{equation:Y estimation}
+    \hat{\mathrm{Y}}(k,n)=
+    \bm{\mathrm{w}}^{\mathrm{H}}(k,n)
+    \bm{\mathrm{x}}(k,n)
+\end{equation}
+
+\noindent Aby znaleźć współncyznniki filtru $\bm{\mathrm{w}}_{\mathrm{n}}(k,n)$, które pozwolą jak najlepiej przybliżyć żądane rozwiązanie należy rozwiązać problem optymalizacyjny zdefiniowany przez dwa poniższe równania:
+\begin{equation}
+    \label{equation:argmin}
+    \bm{\mathrm{w}}_{\mathrm{n}}(k,n) = 
+    \underset{\bm{\mathrm{w}}}{\mathrm{arg \, min}} \,
+    \bm{\mathrm{w}}^{\mathrm{H}}
+    \bm{\mathrm{\Phi}}_{n}
+    \bm{\mathrm{w}}
+\end{equation}
+
+\begin{equation}
+    \label{equation:constraint}
+    \bm{\mathrm{w}}^{\mathrm{H}}
+    \bm{\mathrm{a}}_{l}(k,n)=
+    G(\theta_{l},n),
+    \, \, l \in \{1,2,...,L\}
+\end{equation}
+Ten zapis oznacza, że żądany filtr powinien minimalizować podawane na wejście zakłócenia \eqref{equation:argmin} i odpowiednio sterować głośnościami poszczególnych nadchodzących fal \eqref{equation:constraint}. Rozwiązanie tak postawionego problemu można znaleźć w \cite{Thiergart2013} zaś wyprowadzenie w \cite{Frost1972}:
+
+\begin{equation}
+    \label{equation:lcmv formula}
+    \bm{\mathrm{w}}_{\mathrm{n}}=
+    \bm{\mathrm{\Phi}}_{n}^{-1}\bm{\mathrm{A}}
+    [\bm{\mathrm{A}}^{\mathrm{H}} \bm{\mathrm{\Phi}}_{n} \bm{\mathrm{A}}]^{-1}
+    \bm{\mathrm{g}}
+\end{equation}
+
+\noindent Gdzie macierz $\bm{\mathrm{A}}(k,n)=
+[\bm{\mathrm{a}}_{1}...\bm{\mathrm{a}}_{L}]$ zaś wektor $\bm{\mathrm{g}}(n)=[G(\theta_{1},n)...G(\theta_{L},n)]^{T}$.
+
+\newpage
+\noindent Autor publikacji \cite{Braun2014} proponuje zdefiniowanie funkcji przestrzennego rozkładu głośności(ang. SLD) zapisanego jako:
 
 \begin{equation}
     \label{equation:SLD}

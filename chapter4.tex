@@ -48,23 +48,23 @@ Generator pełni ważną rolę w projekcie inżynierskim. Z tego powodu postanaw
     \item Opcjonalnie informacje o geometrii pokoju i o tym czy symulacja pogłosu jest włączona
 \end{itemize}
 
-\noindent Schemat działania generatora jest względnie prosty. Przyjmuje się model przedstawiony w \ref rozdziale {chapter-2}. Zakłada się, że sygnał wejściowy odpowiada wartości sygnału w punkcie $\bm{\mathrm{d}}_{0}$. Posiłkując się równaniami \eqref{equation:2.4} i \eqref{equation:2.5} można zapisać, że:
+\noindent Schemat działania generatora jest względnie prosty. Przyjmuje się model przedstawiony w rozdziale \ref{chapter-2}. Zakłada się, że sygnał wejściowy odpowiada wartości sygnału w punkcie $\bm{\mathrm{d}}_{0}$. Posiłkując się równaniami \eqref{equation:2.4} i \eqref{equation:2.5} można zapisać, że:
 
 \begin{equation}
     \label{equation:delay model}
-    x_{l}(\bm{\mathrm{d}}_{m},t) = 
-    x_{l}(\bm{\mathrm{d}}_{0},t-\tau)
+    \mathrm{x}_{l}(\bm{\mathrm{d}}_{m},t) = 
+    \mathrm{x}_{l}(\bm{\mathrm{d}}_{0},t-\tau)
 \end{equation}
 
-\noindent Gdzie $x_{l}(\bm{\mathrm{d}}_{m},t)$ to wymuszenie $l$-tej fali dzwiękowej w punkcie $\bm{\mathrm{d}}_{m}$. W takim układzie możliwe są bieżące zmiany opóźnienia bazując na pozycji źródła. Dodatkowo możliwa jest generacja białego szumu $n(t)$. Biały szum o mocy $\sigma$ może być przedstawiony jako zmienna losowa z rozkładu gaussowskiego o średniej 0 i wariancji $\sigma$.
+\noindent Gdzie $\mathrm{x}_{l}(\bm{\mathrm{d}}_{m},t)$ to wymuszenie $l$-tej fali dzwiękowej w punkcie $\bm{\mathrm{d}}_{m}$. W takim układzie możliwe są bieżące zmiany opóźnienia bazując na pozycji źródła. Dodatkowo możliwa jest generacja białego szumu $n(t)$. Biały szum o mocy $\sigma$ może być przedstawiony jako zmienna losowa z rozkładu gaussowskiego o średniej 0 i wariancji $\sigma$.
 
 \noindent Generator umożliwia symulację pomieszczenia, w  którym znajduje się mikrofon. Za pomocą paczki rir generator \cite{rir} generowana jest odpowiedź impulsowa pokoju $\bm{\mathrm{h}}(t)$. Tak generowana odpowiedź nazywana będzie później pogłosem. Szczegóły dotyczące genezy takiego sposoby symulacji pomieszczenia mogą być znalezione w książce \cite{Kuttruff}. Ostatecznie zatem sygnał wejściowy na $m$-tym mikrofonie może być zapisany w dziedzinie czasu jako:
 
 \begin{equation}
     \label{equation:full generator}
-    x(t,\bm{\mathrm{d}}_{m})=
+    \mathrm{x}(t,\bm{\mathrm{d}}_{m})=
     \sum_{l=1}^{L}
-    x_{l}(\bm{\mathrm{d}}_{0},t-\tau_{l,m})*
+    \mathrm{x}_{l}(\bm{\mathrm{d}}_{0},t-\tau_{l,m})*
     h_{l}(t)+ n(t)
 \end{equation}
 
@@ -85,7 +85,7 @@ Algorytm przetwarza nagrane pliki dzwiękowe. Składa się z następujących kro
     
     \State Sygnał jest przetwarzany do reprezentacji STFT
     
-    \State Przetwarzanie(DSP) odbywa się w pętli po kolejnych indeksach czasowych, nazywanych ramkami
+    \State Przetwarzanie odbywa się w pętli po kolejnych indeksach czasowych, nazywanych ramkami
     
     \State Na wyjściu przetwarzania sygnałów zwracany jest sygnał $Y(k,n)$ jako STFT
     
@@ -100,4 +100,6 @@ Algorytm przetwarza nagrane pliki dzwiękowe. Składa się z następujących kro
     \caption{Schemat przetwarzania}
     \label{fig:processing}
 \end{figure}
+
+\noindent Na rysunku \ref{fig:processing} blok oznaczony jako automatyczna kontrola głośności zawiera w sobie operacje obliczenia PSD, estymacji DOA, wyznaczania współczynników i filtracji przy użyciu LCMV. Jest więc równoznaczny z diagramem \ref{fig:block_diagram}.
 

@@ -293,7 +293,7 @@ Zauważalną różnicą w stosunku do przypadku, w którym wszyscy użytkownicy 
 
 \subsection{Odporność systemu na pogłos}
 
-Ostatnim testowanym wariantem jest umieszczenie wszystkich trzech mówców w pokoju w celu ewualuacji działania algorytmu w modelu, w którym występuje duży pogłos. Otrzymane wyniki porównane zostaną z wynikami z wynikami eksperymentów bez pogłosu. Mówcy ponownie znajdują się na kątach $78^{\circ}$, $192^{\circ}$ i $301^{\circ}$. Wyniki znajdują się na wykresach \ref{fig:reverb}-\ref{fig:reverb_params_in_angle}.
+Ostatnim testowanym wariantem jest umieszczenie wszystkich trzech mówców w pokoju w celu ewualuacji działania algorytmu w modelu, w którym występuje pogłos. Otrzymane wyniki porównane zostaną z wynikami z wynikami eksperymentów bez pogłosu. Mówcy ponownie znajdują się na kątach $78^{\circ}$, $192^{\circ}$ i $301^{\circ}$. Wyniki znajdują się na wykresach \ref{fig:reverb}-\ref{fig:reverb_params_in_angle}.
 
 \begin{figure}[h!]
     \centering
@@ -316,7 +316,7 @@ Ostatnim testowanym wariantem jest umieszczenie wszystkich trzech mówców w pok
     \label{fig:reverb_params_in_angle}
 \end{figure}
 
-\noindent Na wykresie \ref{fig:reverb} obserwowany jest brak działania systemu AGC. Jak widać na wykresach następuje na tyle duży błąd estymacji kierunku nadchodzenia fali, że maksima funkcji $\widehat{G}$ są oddalone od kierunków nadchodzenia fali. Z tego powodu do równania \eqref{equation:constraint} brane są błędne kierunki. Oznacza to, że silny pogłos uniemożliwia praktyczne stosowanie algorytmu MUSIC do opisanego w tej pracy systemu.
+\noindent Na wykresie \ref{fig:reverb} obserwowany jest brak działania systemu AGC. Jak widać na wykresach następuje na tyle duży błąd estymacji kierunku nadchodzenia fali, że maksima funkcji $\widehat{G}$ są oddalone od kierunków nadchodzenia fali. Z tego powodu do równania \eqref{equation:constraint} brane są błędne kierunki. Oznacza to, że pogłos uniemożliwia praktyczne stosowanie algorytmu MUSIC do opisanego w tej pracy systemu.
 
 
 
