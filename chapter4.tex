@@ -1,9 +1,9 @@
-\chapter{Szczegóły Implementacyjne}
+\chapter{Szczegóły implementacyjne}
 \label{chapter-4}
 
 \section{Użyte narzędzia}
 
-\noindent Projekt inżynierski został napisany zaimplementowany jako program komputerowy w języku python. Do realizacji zostały użyte głównie paczki:
+\noindent Projekt inżynierski został zaimplementowany jako program komputerowy w języku Python. Do realizacji zostały użyte głównie paczki:
 
 \begin{itemize}
     \item numpy- paczka służąca do obliczeń naukowych. Udostępnia rozbudowane API do algebry liniowej i przetwarzania sygnałów.
@@ -24,7 +24,7 @@ W założeniach oprogramowanie miał mieć charakter obiektowy. Główne bloki z
 \begin{figure}[h!]
     \centering
     \includegraphics[width=\textwidth]{Images/uml_pl.png}
-    \caption{Diagram klas}
+    \caption{Diagram klas rozwiązania}
     \label{fig:classes}
 \end{figure}
 
@@ -34,11 +34,11 @@ W założeniach oprogramowanie miał mieć charakter obiektowy. Główne bloki z
 
 \newpage
 
-\section{Generator}
+\section{Generator sygnałów mikrofonowych}
 
 Generator pełni ważną rolę w projekcie inżynierskim. Z tego powodu postanawia się poświęcić mu osobną sekcję w tekście. 
 
-\noindent Generator przyjmuje jako wejścia następujący dane:
+\noindent Generator przyjmuje jako wejścia następujące dane:
 
 \begin{itemize}
     \item Obiekt macierzy mikrofonowej
@@ -53,10 +53,10 @@ Generator pełni ważną rolę w projekcie inżynierskim. Z tego powodu postanaw
 \begin{equation}
     \label{equation:delay model}
     \mathrm{x}_{l}(\bm{\mathrm{d}}_{m},t) = 
-    \mathrm{x}_{l}(\bm{\mathrm{d}}_{0},t-\tau)
+    \mathrm{x}_{l}(\bm{\mathrm{d}}_{0},t-\tau),
 \end{equation}
 
-\noindent Gdzie $\mathrm{x}_{l}(\bm{\mathrm{d}}_{m},t)$ to wymuszenie $l$-tej fali dzwiękowej w punkcie $\bm{\mathrm{d}}_{m}$. W takim układzie możliwe są bieżące zmiany opóźnienia bazując na pozycji źródła. Dodatkowo możliwa jest generacja białego szumu $n(t)$. Biały szum o mocy $\sigma$ może być przedstawiony jako zmienna losowa z rozkładu gaussowskiego o średniej 0 i wariancji $\sigma$.
+\noindent gdzie $\mathrm{x}_{l}(\bm{\mathrm{d}}_{m},t)$ to wymuszenie $l$-tej fali dzwiękowej w punkcie $\bm{\mathrm{d}}_{m}$. W takim układzie możliwe są bieżące zmiany opóźnienia bazując na pozycji źródła. Dodatkowo możliwa jest generacja białego szumu $n(t)$. Biały szum o mocy $\sigma$ może być przedstawiony jako zmienna losowa z rozkładu gaussowskiego o średniej 0 i wariancji $\sigma$.
 
 \noindent Generator umożliwia symulację pomieszczenia, w  którym znajduje się mikrofon. Za pomocą paczki rir generator \cite{rir} generowana jest odpowiedź impulsowa pokoju $\bm{\mathrm{h}}(t)$. Tak generowana odpowiedź nazywana będzie później pogłosem. Szczegóły dotyczące genezy takiego sposoby symulacji pomieszczenia mogą być znalezione w książce \cite{Kuttruff}. Ostatecznie zatem sygnał wejściowy na $m$-tym mikrofonie może być zapisany w dziedzinie czasu jako:
 
@@ -81,15 +81,15 @@ Algorytm przetwarza nagrane pliki dzwiękowe. Składa się z następujących kro
   
   \caption{Schemat przetwarzania}
   \begin{algorithmic}[1]
-    \State Na wejście trafia M ścieżek dzwiękowych
+    \State Na wejście trafia M ścieżek dźwiękowych
     
     \State Sygnał jest przetwarzany do reprezentacji STFT
     
     \State Przetwarzanie odbywa się w pętli po kolejnych indeksach czasowych, nazywanych ramkami
     
-    \State Na wyjściu przetwarzania sygnałów zwracany jest sygnał $Y(k,n)$ jako STFT
+    \State Na wyjściu przetwarzania sygnałów zwracany jest sygnał $Y(k,n)$ w dziedzinie STFT
     
-    \State Dane wyjściowe są przetwarzane za pomocą odwrotnej krótkoczasowej transformaty fouriera (ISTFT) do postaci czasowej.
+    \State Dane wyjściowe są przetwarzane za pomocą odwrotnej krótkoczasowej transformaty Fouriera (ISTFT) do postaci czasowej.
     
   \end{algorithmic}
 \end{algorithm}
@@ -97,7 +97,7 @@ Algorytm przetwarza nagrane pliki dzwiękowe. Składa się z następujących kro
 \begin{figure}[h!]
     \centering
     \includegraphics[width=\textwidth]{Images/processing.png}
-    \caption{Schemat przetwarzania}
+    \caption{Schemat przetwarzania sygnałów wielokanałowych}
     \label{fig:processing}
 \end{figure}
 

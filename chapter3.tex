@@ -5,7 +5,7 @@
 
 W pracy zdecydowano się rozwiązać problem na bazie metody opisanej w publikacji \cite{Braun2014}. W tej sekcji zostanie podany zbiór metod użytych do rozwiązanie problemu. Zdefiniowanie i opis poszczególnych metod nastąpi w kolejnych sekcjach rozdziału.
 
-\noindent Przetwarzanie sygnału zaczyna się od obliczenia STFT nagrania wejściowego. Następnie odbywa się przetwarzanie przedstawione na \ref{fig:block_diagram}. Na początku obliczona zostaje macierz widmowej gęstości mocy sygnału (PSD). Następnie za jej pomocą estymowany jest kierunek nadchodzenia fal (DOA). Dzięki połączeniu tych wartości możliwe jest zastosowanie algorytmu automatycznej regulacji głośności (AGC). Ostatnim krokiem jest zastosowanie filtru LCMV(ang. Linearly Constrained Minimum Variance), który jako argumenty przyjmuje żądane poziomy wzmocnień, wyestymowane kierunki i sygnał wejściowy. Taki filtr produkuje sygnał wyjściowy. 
+\noindent Przetwarzanie sygnału zaczyna się od obliczenia STFT nagrania wejściowego. Następnie odbywa się przetwarzanie przedstawione na rysunku \ref{fig:block_diagram}. Na początku obliczona zostaje macierz widmowej gęstości mocy nagranych sygnałów (ang. power spectral density - PSD). Następnie za jej pomocą estymowany jest kierunek nadchodzenia fal (ang. direction of arrival - DOA). Dzięki połączeniu tych wartości możliwe jest zastosowanie algorytmu automatycznej regulacji głośności. Ostatnim krokiem jest zastosowanie filtru LCMV, który jako argumenty przyjmuje żądane poziomy wzmocnień, wyestymowane kierunki i sygnał wejściowy. Taki filtr produkuje sygnał wyjściowy o wyrównanym poziomie głośności z jednoczesnym tłumieniem tła akustycznego. 
 
 \begin{figure}[h]
     \centering
@@ -20,20 +20,20 @@ Widmowa gęstość mocy może być zapisana jako:
 \begin{equation}
     \label{equation:PSD}
     \phi_{l}(k,n) = \mathrm{E}
-    \{|X_{l}(k,n,\bm{\mathrm{d}}_{0})|\}
+    \{|X_{l}(k,n,\bm{\mathrm{d}}_{0})|\}.
 \end{equation}
 Macierz widmowej gęstości mocy definiuje się następująco:
 
 \begin{equation}
     \label{equation:PSD matrix}
-    \bm{\mathrm{\Phi}}(k,n) = \mathrm{E} \, \{\bm{\mathrm{x}}(k,n) \bm{\mathrm{x}}^{H}(k,n)\}
+    \bm{\mathrm{\Phi}}(k,n) = \mathrm{E} \, \{\bm{\mathrm{x}}(k,n) \bm{\mathrm{x}}^{H}(k,n)\}.
 \end{equation}
 W praktyce jest obliczana jako średnia z $N$ zebranych próbek:
 \begin{equation}
     \label{equation: PSD in practice}
     \bm{\mathrm{\Phi}}(k,n)=
     \dfrac{1}{N} \sum_{i = n-N}^{n-1}
-    \bm{\mathrm{x}}(k,i) \bm{\mathrm{x}}^{H}(k,i)
+    \bm{\mathrm{x}}(k,i) \bm{\mathrm{x}}^{H}(k,i).
 \end{equation}
 Zgodnie z \cite{Thiergart2013}, zakładając, że wszystkie elementy równania \eqref{equation:2.2} są nieskorelowane, można zapisać:
 
@@ -41,26 +41,26 @@ Zgodnie z \cite{Thiergart2013}, zakładając, że wszystkie elementy równania \
     \label{equation:PSD signal noise}
     \bm{\mathrm{\Phi}}(k,n) = 
     \sum_{l=1}^{L} \bm{\mathrm{\Phi}}_{l}(k,n) +
-    \bm{\mathrm{\Phi}}_{\mathrm{n}}(k,n)
+    \bm{\mathrm{\Phi}}_{\mathrm{n}}(k,n).
 \end{equation}
 Gdzie odpowiednio $\bm{\mathrm{\Phi}}_{l}(k,n)$ i $\bm{\mathrm{\Phi}}_{\mathrm{n}}(k,n)$ są macierzami PSD odpowiednio $l$-tej padającej fali i zakłóceń.
 
-\section{Algorytm MUSIC}
+\section{Algorytm lokalizacji źródeł dzwięku MUSIC}
 
-MUSIC(ang. Multiple Emitter Location and Signal Parameter Estimation) został opisany w \cite{Schmidt1986}. Nowocześniejsze opracowania można też znaleźć w \cite{DOA} i \cite{Benesty2008}. Algorytm pozwala wyestymować kierunki nadchodzenia fali w systemie zawierającym wiele źródeł. Algorytm zakłada przyjęty model sygnału z założeniem, że tło akustyczne to wyłącznie biały szum. Obecność innych zakłóceń pogarsza działanie systemu.
+MUSIC(ang. Multiple Emitter Location and Signal Parameter Estimation) został opisany w \cite{Schmidt1986}. Nowocześniejsze opracowania można też znaleźć w \cite{DOA} i \cite{Benesty2008}. Algorytm pozwala wyestymować kierunki nadchodzenia fali w systemie zawierającym wiele źródeł. Algorytm zakłada przyjęty model sygnału z założeniem, że tło akustyczne to szum własny czujników i szum tła. W pracy przyjęto uproszczony model i potraktowano zakłócenia jako Gaussowski szum biały (ang. white Gaussian noise). Obecność innych zakłóceń pogarsza działanie systemu.
 
 \noindent Na potrzeby tej pracy zostanie przedstawiony skrótowo algorytm. Wyprowadzenie znajduje się w wyżej cytowanej publikacji. 
 Definiuje się zapis $\bm{\mathrm{a}}(k,n,\theta)$, oznaczający wektor sterującym dla kąta padania $\theta$ i indeksu czasowo-częstotliwościowego $(k,n)$ oraz $\bm{\mathrm{\Phi}}(k,n)$ oznaczający macierz PSD sygnału dla tego samego indeksu czasowo-częstotliwościowego.
 
 \noindent Liczba nadchodzących fal $L$ może być wyestymowana na przykład zgodnie z publikacją \cite{n_src}. W tej pracy zakłada się jednak, że liczba źródeł jest znana.
 
-\noindent W rozkładzie na wartości własne macierzy $\bm{\mathrm{\Phi}}(k,n)$ wektory własne powiązane z L największymi wartościami własnymi nazywa się wektorami podprzestrzenii sygnału i oznacza jako $\bm{\mathrm{s}}_{i}$, zaś pozostałe wektory- wektorami z podprzestrzenii szumu $\bm{\mathrm{e}}_{i}$. Macierz $\bm{\mathrm{E}}(k,n)$ zawiera w kolejnych kolumnach kolejne wektory podprzestrzenii szumu.
+\noindent W rozkładzie na wartości własne macierzy $\bm{\mathrm{\Phi}}(k,n)$ wektory własne powiązane z L największymi wartościami własnymi nazywa się wektorami podprzestrzenii sygnału i oznacza jako $\bm{\mathrm{s}}_{i}$, zaś pozostałe wektory- wektorami z podprzestrzenii szumu $\bm{\mathrm{e}}_{i}$. Macierz $\bm{\mathrm{E}}(k,n)$ zawiera w kolejnych kolumnach kolejne wektory podprzestrzenii szumu:
 
 \begin{equation}
     \label{equation:eigenvectors}
     \bm{\mathrm{E}}(k,n)=
     [\bm{\mathrm{e}}_{1}(k,n)...
-    \bm{\mathrm{e}}_{M-L}(k,n)]
+    \bm{\mathrm{e}}_{M-L}(k,n)].
 \end{equation}
 
 \noindent Następnie definiuje się funkcję:
@@ -72,7 +72,7 @@ Definiuje się zapis $\bm{\mathrm{a}}(k,n,\theta)$, oznaczający wektor sterują
     \bm{\mathrm{E}}(k,n)
     \bm{\mathrm{E}}^{\mathrm{H}}(k,n)
     \bm{\mathrm{a}}(\theta,k,n)
-    }
+    }.
 \end{equation}
 \noindent 
 $L$ największych maksimów lokalnych takiej funkcji w dziedzinie kątów uznaje się za wyestymowane kierunki nadchodzenia fali.
@@ -81,7 +81,7 @@ $L$ największych maksimów lokalnych takiej funkcji w dziedzinie kątów uznaje
 \begin{equation}
     \label{equation:Pa}
     P_{a}(\theta,n) = 
-    \dfrac{1}{K}\sum_{k=1}^{K}\,P(\theta,k,n)   
+    \dfrac{1}{K}\sum_{k=1}^{K}\,P(\theta,k,n).
 \end{equation}
 
 \noindent Ponownie, $L$ największych maksimów lokalnych wskazuje kierunki nadchodzenia fali.
@@ -113,7 +113,7 @@ Ważnym elementem systemu będzie sterowanie tak zwaną przestrzenną funkcją g
     \underset{\bm{\mathrm{w}}}{\mathrm{arg \, min}} \,
     \bm{\mathrm{w}}^{\mathrm{H}}
     \bm{\mathrm{\Phi}}_{n}
-    \bm{\mathrm{w}}
+    \bm{\mathrm{w}} \;\;\; \mathrm{s.t}
 \end{equation}
 
 \begin{equation}
@@ -121,7 +121,7 @@ Ważnym elementem systemu będzie sterowanie tak zwaną przestrzenną funkcją g
     \bm{\mathrm{w}}^{\mathrm{H}}
     \bm{\mathrm{a}}_{l}(k,n)=
     G(\theta_{l},n),
-    \, \, l \in \{1,2,...,L\}
+    \, \, l \in \{1,2,...,L\}.
 \end{equation}
 Ten zapis oznacza, że żądany filtr powinien minimalizować podawane na wejście zakłócenia \eqref{equation:argmin} i odpowiednio sterować głośnościami poszczególnych nadchodzących fal \eqref{equation:constraint}. Rozwiązanie tak postawionego problemu można znaleźć w \cite{Thiergart2013} zaś wyprowadzenie w \cite{Frost1972}:
 
@@ -130,24 +130,24 @@ Ten zapis oznacza, że żądany filtr powinien minimalizować podawane na wejśc
     \bm{\mathrm{w}}_{\mathrm{n}}=
     \bm{\mathrm{\Phi}}_{n}^{-1}\bm{\mathrm{A}}
     [\bm{\mathrm{A}}^{\mathrm{H}} \bm{\mathrm{\Phi}}_{n} \bm{\mathrm{A}}]^{-1}
-    \bm{\mathrm{g}}
+    \bm{\mathrm{g}},
 \end{equation}
 
-\noindent Gdzie macierz $\bm{\mathrm{A}}(k,n)=
+\noindent gdzie macierz $\bm{\mathrm{A}}(k,n)=
 [\bm{\mathrm{a}}_{1}...\bm{\mathrm{a}}_{L}]$ zaś wektor $\bm{\mathrm{g}}(n)=[G(\theta_{1},n)...G(\theta_{L},n)]^{T}$.
 
 \newpage
-\noindent Autor publikacji \cite{Braun2014} proponuje zdefiniowanie funkcji przestrzennego rozkładu głośności(ang. SLD) zapisanego jako:
+\noindent Autor publikacji \cite{Braun2014} proponuje zdefiniowanie funkcji przestrzennego rozkładu głośności (ang. spatial loudness distribution - SLD) zapisanego jako:
 
 \begin{equation}
     \label{equation:SLD}
     \Psi(\theta,n)=
     \sum_{k=1}^{K} \beta^{2}(k)
     \sum_{l=1}^{L}\delta_{\theta,\theta_{l}}
-    \, \phi_{l}(k,n)
+    \, \phi_{l}(k,n),
 \end{equation}
 
-\noindent Gdzie $(k,n)$ to indeksy czasowo częstotliwościowe, $\delta_{\theta,\theta_{l}}$ to delta Kroneckera- sygnał przyjmujący wartość $1$ dla $\theta_{l}$ i $0$ dla pozostałych.
+\noindent gdzie $(k,n)$ to indeksy czasowo częstotliwościowe, $\delta_{\theta,\theta_{l}}$ to delta Kroneckera- sygnał przyjmujący wartość $1$ dla $\theta_{l}$ i $0$ dla pozostałych.
 
 \noindent Aby wyestymować PSD $\phi_{i}$ $i$-tej fali dokonuje się filtracji filtrem LCMV takim, że:
 \begin{equation}
@@ -164,7 +164,7 @@ Ten zapis oznacza, że żądany filtr powinien minimalizować podawane na wejśc
 
 \begin{equation}
     \label{equation:beta}
-    \beta(k) = 1, \,\,\,\ k=\{1,2,...,K\}
+    \beta(k) = 1, \,\,\,\ k=\{1,2,...,K\}.
 \end{equation}
 
 \noindent Definiuje się także długoczasową funkcję przestrzennego rozkładu głośności zdefiniowaną jako:
@@ -173,10 +173,10 @@ Ten zapis oznacza, że żądany filtr powinien minimalizować podawane na wejśc
     \label{equation:LT_SLD}
     \Psi_{LT}(\theta,n)=
     \alpha_{LT}\Psi_{LT}(\theta,n-1)
-    +(1-\alpha_{LT})\Psi(\theta,n)
+    +(1-\alpha_{LT})\Psi(\theta,n),
 \end{equation}
 
-\noindent To działanie ma na celu wygładzenie funkcji w dziedzinie czasu. Głośność sygnału powinna być niewrażliwa na fluktuacje o bardzo dużych częstotliwościach. Taka definicja funkcji jest tożsama z filtracją dolnoprzepustową za pomocą filtra o nieskończonej odpowiedzi impulsowej(IIR).
+\noindent gdzie $\alpha_{LT}$ oznacza pewnien przyjęty współczynnik. Działanie ma na celu wygładzenie funkcji w dziedzinie czasu. Głośność sygnału powinna być niewrażliwa na fluktuacje o bardzo dużych częstotliwościach. Taka definicja funkcji jest tożsama z filtracją dolnoprzepustową za pomocą filtra o nieskończonej odpowiedzi impulsowej(IIR).
 
 \noindent Funkcje nie są zależne od składowej częstotliwościowej bo celem pracy jest wzmocnienie amplitudy całego sygnału a nie poszczególnych pasm.
 
@@ -186,16 +186,16 @@ Ten zapis oznacza, że żądany filtr powinien minimalizować podawane na wejśc
     \label{equation:sqrt}
     G(\theta,n)=
     \sqrt{\dfrac{\Psi_{target}(\theta)}{
-    \Psi_{LT}(\theta,n)}}
+    \Psi_{LT}(\theta,n)}}.
 \end{equation}
 
 \noindent Należy jednak zauważyć, że tak obliczona funkcja prowadziłaby do silnego wzmocnienia kierunków, w których nie ma sygnału. Co za tym idzie niemalże nieskończenie wzmacniane byłoby tło akustyczne. Kilkustopniowy błąd estymacji kierunku nadchodzenia fali mógłby w praktyce uniemożliwić poprawne działanie systemu. Aby to uniemożliwić definiuje się minimalną moc uznawaną za sygnał $\Psi_{min}(n)$. Obliczona może być jako:
 
 \begin{equation}
     \Psi_{\min}(n)=
-    \max({\dfrac{1}{2\pi} \int_{0}^{2\pi} \Psi(\theta,n) \, \mathrm{d}\theta, \, \Psi_{0}})
+    \max({\dfrac{1}{2\pi} \int_{0}^{2\pi} \Psi(\theta,n) \, \mathrm{d}\theta, \, \Psi_{0}}),
 \end{equation}
-Gdzie $\Psi_{0}$ jest pewną ustaloną granicą.
+gdzie $\Psi_{0}$ jest pewną ustaloną granicą.
 
 \newpage
 
@@ -208,7 +208,7 @@ Gdzie $\Psi_{0}$ jest pewną ustaloną granicą.
   \begin{algorithmic}[1]
     \State Zainicjalizuj $G'(\theta,n)$ wartością 1 dla każdego kierunku
     
-    \State  Znajdź maksimum globalne funkcji $\Psi_{LT}$ w dziedzinie kąta($\theta_{\max}$) i oblicz przestrzenną funkcją głośności $G(\theta_{max},n)$ za pomocą \eqref{equation:sqrt}.
+    \State  Znajdź maksimum globalne funkcji $\Psi_{LT}$ w dziedzinie kąta($\theta_{\max}$) i oblicz przestrzenną funkcją głośności $G(\theta_{\mathrm{max}},n)$ za pomocą \eqref{equation:sqrt}.
     
     \State Wygeneruj okno przestrzenne o określonej szerokości $\Theta$, które ma wzmocnienie $1$ na brzegach i $G(\theta_{max},n)$ w środku.
     

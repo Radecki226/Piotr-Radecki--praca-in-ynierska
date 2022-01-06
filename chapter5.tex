@@ -1,7 +1,7 @@
-\chapter{Testy}
+\chapter{Testy i ewaluacja}
 \label{chapter-5}
 \section{Konfiguracja}
-Dla celów testów przyjęto pewne sztywne założenia. Jako prędkość dzwięku przyjmuje się $343 \dfrac{m}{s}$ Wszystkie testy są przeprowadzane na sygnałach mowy próbkowanych z częstotliwością 8kHz. STFT i ISTFT jest obliczane przy pomocy okna hanninga \cite{hann} ze współczynnikiem nachodzenia okien(ang. overlap) 50$\%$. Jako okno przestrzenne także przyjęto okno hanninga o szerokości $40^{\circ}$. Liczba ramek $N$, z których wyliczana jest macierz PSD jest równa 100.Aktualizacja DOA odbywa się co 10 ramek. Współczynniki $\alpha_{\mathrm{LT}}$ i $\alpha_{G}$ mają wartości 0.98. Jako macierz mikrofonową przyjęto kwadratową strukturę o liczbie mikrofonów $M=16$ o równomiernej odegłości między mikrofonami równej $\Delta d = 2cm$. Na potrzeby niektórych eksperymentów odległość między mikrofonami była zwiększana.
+Dla celów testów przyjęto pewne sztywne założenia. Jako prędkość dzwięku przyjmuje się 343 m/s. Wszystkie testy są przeprowadzane na sygnałach mowy próbkowanych z częstotliwością 8kHz. STFT i ISTFT jest obliczane przy pomocy okna hanninga \cite{hann} ze współczynnikiem nachodzenia okien (ang. overlap) 50$\%$. Jako okno przestrzenne także przyjęto okno hanninga o szerokości $40^{\circ}$. Liczba ramek $N$, z których wyliczana jest macierz PSD jest równa 100. Aktualizacja DOA odbywa się co 10 ramek. Współczynniki $\alpha_{\mathrm{LT}}$ i $\alpha_{G}$ mają wartości 0.98. Jako macierz mikrofonową przyjęto kwadratową strukturę o liczbie mikrofonów $M=16$ o równomiernej odegłości między mikrofonami równej $\Delta d = 2$cm. Na potrzeby niektórych eksperymentów odległość między mikrofonami była zwiększana.
 
 \noindent Podawane sygnały dzwiękowe są znormalizowane w ten sposób, że moduł z ich maksymalnej wartości wynosi 1. Przekłada się to na moce średnie z zakresu 0.1-0.2. Zdecydowano zatem, że parametr $\Psi_{0} = 0.001$. 
 
@@ -17,11 +17,11 @@ Dla celów testów przyjęto pewne sztywne założenia. Jako prędkość dzwięk
 \begin{figure}[h!]
     \centering
     \includegraphics[width=0.4\textwidth]{Images/microphone.png}
-    \caption{Macierz Mikrofonowa}
+    \caption{Macierz mikrofonowa}
     \label{fig:microphone}
 \end{figure}
 
-\noindent Jako zakłócenie do usunięcia wybrano biały szum. Jego macierz PSD może być zapisana jako macierz diagonalna z wartościami 1 na przekątnej $\bm{\Phi}_{\mathrm{n}} = \bm{\mathrm{diag}}(1)$.
+\noindent Jako zakłócenie do usunięcia wybrano biały szum. Jego macierz PSD może być zapisana jako macierz diagonalna z wartościami 1 na przekątnej $\bm{\Phi}_{\mathrm{n}} = \bm{\mathrm{diag}}([1,...,1])$.
 
 \noindent W sekcjach poniżej kolejno opisywane są wykonywane testy i doświadczenia.
 
@@ -46,11 +46,11 @@ Poniżej przedstawiono wykresy charakterystyki kierunkowej dla filtra LCMV o nas
     \label{fig:directivity0.02}
 \end{figure}
 
-\noindent Załączony obrazek \ref{fig:directivity0.02} pokazuje, że filtr prawidłowo generuje wymuszenia w określonych kierunkach. Właściwości usuwania tła akustycznego zostaną sprawdzone w kolejnych sekcjach.
+\noindent Załączony obrazek \ref{fig:directivity0.02} pokazuje, że filtr prawidłowo generuje wymuszenia w określonych kierunkach dla określonych częstotliwości. Właściwości usuwania tła akustycznego zostaną sprawdzone w kolejnych sekcjach.
 
-\noindent Zgodnie z teorią przedstawioną w \cite{mccowan2001} wraz ze wzrostem stosunku $\dfrac{\Delta d}{\lambda}$, gdzie $\lambda$ to długość fali, rośnie kierunkowość filtru. Prowadzi to do sytuacji, w której maksima są bardzo wąskie i wartość charakterystyki kierunkowej silnie fluktuuje w dziedzinie kątów. Nieznaczny błąd estymacji kierunku nadchodzenia fali może więc prowadzić do fatalnych skutków. Zjawisko pojawiania się dużej liczby minimów i maksimów nazywane jest aliasingiem przestrzennym. Zachodzi dla $\Delta d > \dfrac{\lambda}{2}$. Przy założonej prędkości dzwięku dla częstotliwości $f = 4kHz$ granica aliasingu przestrzennego wystąpi dla $\Delta d \approx 4cm $. Dlatego właśnie zdecydowano się wybrać bezpieczną odległość między mikrofonami $\Delta d = 2cm$.
+\noindent Zgodnie z teorią przedstawioną w \cite{mccowan2001} wraz ze wzrostem stosunku $\dfrac{\Delta d}{\lambda}$, gdzie $\lambda$ to długość fali, rośnie kierunkowość filtru. Prowadzi to do sytuacji, w której maksima są bardzo wąskie i wartość charakterystyki kierunkowej silnie fluktuuje w dziedzinie kątów. Nieznaczny błąd estymacji kierunku nadchodzenia fali może więc prowadzić do fatalnych skutków. Zjawisko pojawiania się dużej liczby minimów i maksimów nazywane jest aliasingiem przestrzennym. Zachodzi dla $\Delta d > \dfrac{\lambda}{2}$. Przy założonej prędkości dzwięku dla częstotliwości $f = 4$kHz granica aliasingu przestrzennego wystąpi dla $\Delta d \approx 4$cm. Dlatego właśnie zdecydowano się wybrać bezpieczną odległość między mikrofonami $\Delta d = 2$cm.
 
-\noindent Warte pokazania są wykresy takich samych filtrów jeśli mikrofony byłyby oddalone od siebie odpowiednio o $\Delta d = 20cm$ i $\Delta d = 2m$:
+\noindent Warte pokazania są wykresy takich samych filtrów jeśli mikrofony byłyby oddalone od siebie odpowiednio o $\Delta d = 20$cm i $\Delta d = 2$m. Zauważalna jest ogromna liczba maksimów i ich mała szerokość występująca już na rysunku \ref{fig:directivity0.2} dla 2kHz- jest to właśnie aliasing przestrzenny.
 
 \begin{figure}[h!]
     \centering
@@ -73,8 +73,8 @@ Poniżej przedstawiono wykresy charakterystyki kierunkowej dla filtra LCMV o nas
 \noindent W celu sprawdzenia działania zaproponowanego algorytmu MUSIC sprawdzone są różne warianty rozłożenia mówców:
 
 \begin{itemize}
-    \item Jeden mówca usytuowany na kącie $\theta_{0} = 78^{\circ}$
-    \item Trzech mówców usytuowanych na kątach $\theta_{0} = 78^{\circ}, \, \theta_{1} = 192^{\circ}, \, \theta_{2} = 301^{\circ}$
+    \item Jeden mówca usytuowany na pozycji o kącie $\theta_{0} = 78^{\circ}$
+    \item Trzech mówców usytuowanych na pozycjach o kątach $\theta_{0} = 78^{\circ}, \, \theta_{1} = 192^{\circ}, \, \theta_{2} = 301^{\circ}$
 \end{itemize}
 \noindent Wszystkie powyższe scenariusze będą powtórzone dla następjących konfiguracji wartości stosunku sygnału do szumu i obecności pogłosu:
 
@@ -84,7 +84,7 @@ Poniżej przedstawiono wykresy charakterystyki kierunkowej dla filtra LCMV o nas
     \item $\mathrm{SNR}=10\mathrm{dB}, \, $ sygnał z pogłosem
 \end{itemize}
 
-\noindent Te wartości zostały sprawdzone dla $\Delta d = 2cm$ i $\Delta d = 20cm$ dla porównania. Wygenerowane wykresy przedstawiające znalezione DOA mogą być znalezione w tekście jako załączniki \ref{fig:music_10db_2cm}-\ref{fig:music_10db_20cm_reverb}. Na przedstawionych wykresach po lewej stronie znajduje się efekt działania dla jednego źródła a po prawej dla trzech źródeł.
+\noindent Te wartości zostały sprawdzone dla $\Delta d = 2$cm i $\Delta d = 20$cm dla porównania. Wygenerowane wykresy przedstawiające znalezione DOA przedstawiono na rysunkach \ref{fig:music_10db_2cm}-\ref{fig:music_10db_20cm_reverb}. Na przedstawionych wykresach po lewej stronie znajduje się efekt działania dla jednego źródła a po prawej dla trzech źródeł. Prezentacja wyników jest pokazana w dziedzinie tzw. spektrum przestrzennego przedstawiającego funkcję w zależności od kąta padania fali.
 
 \begin{figure}[H]
     \centering
@@ -128,7 +128,7 @@ Poniżej przedstawiono wykresy charakterystyki kierunkowej dla filtra LCMV o nas
     \label{fig:music_10db_20cm_reverb}
 \end{figure}
 
-\noindent Wyniki dotyczące wpływu szumu nie zaskakują- algorytm działa mniej dokładnie dla niskiego SNR. To samo dotyczy pogłosu, użyty algorytm nie jest odporny na tego typu zakłócenia. Pojawiające się odbite fale wewnątrz pokoju czynią maksima mniej wybitnymi. Najbardziej interesująca obserwacja zdaniem autora pracy to wpływ odległości między mikrofonami. Większa odległość powoduje większą kierunkowość co przekłada się na dokładniejszą estymację. Dla rozłożenia $\Delta \d = 20cm$ i szumie $\mathrm{SNR}=-10\mathrm{dB}$ udaje się dokładnie wyestomować wszystkie trzy kierunki. Dla tego samego stosunku sygnału do szumu i $\Delta d = 2cm$ algorytm estymuje tylko dwa kierunki i to bardzo niedokładnie. Do dalszych testów wybrano jednak system ze stosunkiem sygnału do szumu na poziomie 10-20dB a mówcy są dość daleko od siebie. Zbytnia kierunkowość powoduje duże problemy z zastosowaniem filtra LCMV i nawet bardzo dokładna estymacja nie rekompensuje tych strat. Doświadczenia empiryczne pokazały, że cały system działa lepiej dla $\Delta d = 2cm$.
+\noindent Wyniki dotyczące wpływu szumu nie zaskakują- algorytm działa mniej dokładnie dla niskiego SNR. To samo dotyczy pogłosu, użyty algorytm nie jest odporny na tego typu zakłócenia. Pojawiające się odbite fale wewnątrz pokoju czynią maksima mniej wyeksponowanymi. Najbardziej interesująca obserwacja zdaniem autora pracy to wpływ odległości między mikrofonami. Większa odległość powoduje większą kierunkowość co przekłada się na dokładniejszą estymację. Dla rozłożenia $\Delta \d = 20cm$ i szumie $\mathrm{SNR}=-10\mathrm{dB}$ udaje się dokładnie wyestomować wszystkie trzy kierunki. Dla tego samego stosunku sygnału do szumu i $\Delta d = 2cm$ algorytm estymuje tylko dwa kierunki i to bardzo niedokładnie. Do dalszych testów wybrano jednak system ze stosunkiem sygnału do szumu na poziomie 10-20dB a mówcy są dość daleko od siebie. Zbytnia kierunkowość powoduje duże problemy z zastosowaniem filtra LCMV i nawet bardzo dokładna estymacja nie rekompensuje tych strat. Doświadczenia empiryczne pokazały, że cały system działa lepiej dla $\Delta d = 2cm$.
 
 \newpage
 
@@ -266,7 +266,7 @@ W przypadku wielu użytkowników nie jest tak łatwo zaprezentować działanie a
 \subsection{Działanie algorytmu w przypadku ruchu mówcy}
 
 Ten test ma za zadanie sprawdzić czy system AGC będzie działał gdy mówca zacznie się poruszać z niewielką prędkością kątową. Wszystkie parametry są takie jak dla poprzednich testów ale podczas trwania sygnału jeden z mówców- Mężczyzna 1 przemieści się z $78^{\circ} $ na $ 99^{\circ}$.
-Na wykresach \ref{fig:moving}-\ref{fig:moving_params_in_angle} pokazano to samo co dla poprzednich przypadków.
+Na wykresach \ref{fig:moving}-\ref{fig:moving_params_in_angle} pokazano przebiegi analogiczne do tych z poprzednich przypadków.
 
 \begin{figure}[h!]
     \centering
@@ -282,14 +282,14 @@ Na wykresach \ref{fig:moving}-\ref{fig:moving_params_in_angle} pokazano to samo 
     \label{fig:moving_params_in_time}
 \end{figure}
 
-\begin{figure}[h!]
+\begin{figure}[H]
     \centering
     \includegraphics[width=\textwidth]{Images/moving_params_in_angle.png}
     \caption{Wybrane parametry jako funkcja kąta w pojedynczej ramce w przypadku ruchu jednego z nich}
     \label{fig:moving_params_in_angle}
 \end{figure}
 
-Zauważalną różnicą w stosunku do przypadku, w którym wszyscy użytkownicy byli statyczni jest różnica w położeniu pierwszej "górki" funkcji $G'$. Jest ona po prostu przesunięta. Stało się tak, ponieważ użytkownik zmienił już swoją pozycję w momencie obserwacji. Ruch nie powoduje pogorszenia się działania algorytmu.
+\noindent Zauważalną różnicą w stosunku do przypadku, w którym wszyscy użytkownicy byli statyczni jest różnica w położeniu pierwszej "górki" funkcji $G'$. Jest ona po prostu przesunięta. Stało się tak, ponieważ użytkownik zmienił już swoją pozycję w momencie obserwacji. Ruch nie powoduje pogorszenia się działania algorytmu.
 
 \subsection{Odporność systemu na pogłos}
 
@@ -316,7 +316,7 @@ Ostatnim testowanym wariantem jest umieszczenie wszystkich trzech mówców w pok
     \label{fig:reverb_params_in_angle}
 \end{figure}
 
-\noindent Na wykresie \ref{fig:reverb} obserwowany jest brak działania systemu AGC. Jak widać na wykresach następuje na tyle duży błąd estymacji kierunku nadchodzenia fali, że maksima funkcji $\widehat{G}$ są oddalone od kierunków nadchodzenia fali. Z tego powodu do równania \eqref{equation:constraint} brane są błędne kierunki. Oznacza to, że pogłos uniemożliwia praktyczne stosowanie algorytmu MUSIC do opisanego w tej pracy systemu.
+\noindent Na wykresie \ref{fig:reverb} obserwowany jest brak działania systemu AGC. Jak widać na wykresach następuje na tyle duży błąd estymacji kierunku nadchodzenia fali, że maksima funkcji $\widehat{G}$ są oddalone od kierunków nadchodzenia fali. Z tego powodu do równania \eqref{equation:constraint} brane są błędne kierunki. Oznacza to, że pogłos uniemożliwia praktyczne stosowanie algorytmu MUSIC do opisanego w tej pracy systemu. W związku z tym algorytm wymaga ulepszenia mechanizmu lokalizacyjnego poprzez na przykład zwiększenie czasu uśredniania, uśrednienie funkcji \eqref{equation:Pa} w innym przedziale częstotliwości lub wybór innej metody.
 
 
 
